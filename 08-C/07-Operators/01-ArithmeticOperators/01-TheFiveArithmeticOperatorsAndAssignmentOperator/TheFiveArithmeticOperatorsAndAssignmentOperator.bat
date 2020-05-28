@@ -1,0 +1,7 @@
+del TheFiveArithmeticOperatorsAndAssignmentOperator.obj
+del TheFiveArithmeticOperatorsAndAssignmentOperator.exe
+cl.exe /c /EHsc TheFiveArithmeticOperatorsAndAssignmentOperator.c
+
+link.exe TheFiveArithmeticOperatorsAndAssignmentOperator.obj
+
+TheFiveArithmeticOperatorsAndAssignmentOperator.exe
