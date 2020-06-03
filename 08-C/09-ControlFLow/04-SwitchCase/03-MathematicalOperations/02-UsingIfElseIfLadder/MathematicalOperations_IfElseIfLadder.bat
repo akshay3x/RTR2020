@@ -1,0 +1,8 @@
+del MathematicalOperations_IfElseIfLadder.obj
+del MathematicalOperations_IfElseIfLadder.exe
+
+cl.exe /c /EHsc MathematicalOperations_IfElseIfLadder.c
+
+link.exe MathematicalOperations_IfElseIfLadder.obj
+
+MathematicalOperations_IfElseIfLadder.exe
