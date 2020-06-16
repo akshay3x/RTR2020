@@ -75,7 +75,7 @@ int AcMyStrLen(char str[])
 
 	for(ac_i = 0; ac_i < AC_MAX_STRING_LENGTH; ac_i++)
 	{
-		if(str[ac_i] =='\0')
+		if(str[ac_i] == '\0')
 			break;
 		else
 			istrlen++;
