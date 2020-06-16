@@ -41,7 +41,7 @@ void AcMyStrRev(char dest[], char src[])
 	
 	rev_len = i_ac_strlen - 1;
 	
-	for(ac_i=0, ac_j = rev_len; ac_i < i_ac_strlen, ac_j >= 0; ac_i++, ac_j--)
+	for(ac_i = 0, ac_j = rev_len; ac_i < i_ac_strlen, ac_j >= 0; ac_i++, ac_j--)
 	{
 		dest[ac_i] = src[ac_j];
 	}
