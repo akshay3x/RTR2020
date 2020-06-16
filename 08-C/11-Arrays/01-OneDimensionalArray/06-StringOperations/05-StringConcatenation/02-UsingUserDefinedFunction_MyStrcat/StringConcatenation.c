@@ -44,7 +44,7 @@ void AcMyStrCat(char str_one[], char str_two[])
 	//function declarations/prototype
 	int AcMyStrLen();
 
-	//variable declaration
+	//variable declarations
 	int ac_j = 0, ac_i = 0;
 	int istr_one_len = 0;
 	int istr_two_len = 0;
@@ -58,7 +58,6 @@ void AcMyStrCat(char str_one[], char str_two[])
 		str_one[ac_i] = str_two[ac_j];
 	}
 	str_one[ac_i] = '\0';
-
 }
 
 int AcMyStrLen(char str[])
@@ -75,6 +74,5 @@ int AcMyStrLen(char str[])
 		else
 			i_ac_strlen++;
 	}
-
 	return (i_ac_strlen);
 }
