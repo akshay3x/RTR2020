@@ -38,24 +38,24 @@ int main(void)
 	int  i_ac_array_depth;
 
 	int ac_i, ac_j, ac_k;
-	
+
 	//code
 	printf("\n\n");
 	i_ac_int_size = sizeof(i_ac_Array);
-	
+
 	printf("Size of Array = %d", i_ac_int_size);
 	
 	i_ac_array_width = i_ac_int_size / sizeof(i_ac_Array[0]);
-	
+
 	i_ac_array_height = sizeof(i_ac_Array[0]) / sizeof(i_ac_Array[0][0]);
 	
 	i_ac_array_depth = sizeof(i_ac_Array[0][0])/ sizeof(i_ac_Array[0][0][0]);
-	
+
 	printf("\n");
 	printf("Array Width: %d \n", i_ac_array_width );
 	printf("Array Height: %d \n", i_ac_array_height);
 	printf("Array Depth: %d \n", i_ac_array_depth);
-	
+
 	printf("\n");
 	printf("----------\n");
 	for(ac_i = 0; ac_i < i_ac_array_width; ac_i++)
@@ -70,6 +70,6 @@ int main(void)
 		}
 		printf("----------\n");
 	}
-	
-	
+
+	return (0);
 }
