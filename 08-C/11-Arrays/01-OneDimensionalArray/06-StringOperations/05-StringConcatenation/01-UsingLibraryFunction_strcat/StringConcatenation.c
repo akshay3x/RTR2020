@@ -23,7 +23,7 @@ int main(void)
 	printf("\n");
 	printf("String Two: %s\n", ch_ac_str_two);
 
-	//concatination Library Function
+	//concatination library function call
 	strcat(ch_ac_str_one, ch_ac_str_two);
 
 	printf("\n");
