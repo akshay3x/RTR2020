@@ -4,7 +4,7 @@
 
 int main(void)
 {
-	//variable declaration
+	//variable declarations
 	char ch_ac_str_one[AC_MAX_STRING_LENGTH];
 	char ch_ac_str_two[AC_MAX_STRING_LENGTH];
 
