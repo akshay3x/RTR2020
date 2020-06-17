@@ -1,0 +1,9 @@
+del MultipleStructVariablesDeclarationMethod_04.obj
+
+del MultipleStructVariablesDeclarationMethod_04.exe
+
+cl.exe /c /EHsc MultipleStructVariablesDeclarationMethod_04.c
+
+link.exe MultipleStructVariablesDeclarationMethod_04.obj
+
+MultipleStructVariablesDeclarationMethod_04.exe

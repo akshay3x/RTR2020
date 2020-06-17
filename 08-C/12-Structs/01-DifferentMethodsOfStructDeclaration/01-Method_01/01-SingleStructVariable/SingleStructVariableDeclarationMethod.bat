@@ -1,0 +1,9 @@
+del SingleStructVariableDeclarationMethod.obj
+
+del SingleStructVariableDeclarationMethod.exe
+
+cl.exe /c /EHsc SingleStructVariableDeclarationMethod.c
+
+link.exe SingleStructVariableDeclarationMethod.obj
+
+SingleStructVariableDeclarationMethod.exe
