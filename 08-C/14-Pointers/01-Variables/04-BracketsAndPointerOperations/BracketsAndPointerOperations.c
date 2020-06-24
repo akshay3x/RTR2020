@@ -6,7 +6,7 @@ int main(void)
 	int num;
 	int *ptr = NULL;
 	int ans;
-	
+
 	//code
 	num = 5;
 	ptr = &num;
@@ -19,22 +19,22 @@ int main(void)
 	printf(" *ptr =		%d\n", *ptr);
 
 	printf("\n\n");
-	
+
 	printf(" (ptr + 10) =	%p\n", (ptr + 10));
 
 	printf(" *(ptr + 10) =	%d\n", *(ptr + 10));
-	
+
 	printf(" (*ptr + 10) =	%d\n", (*ptr + 10));
 
 	++*ptr;
 	printf(" ++*ptr =	%d\n", *ptr);
-	
+
 	*ptr++;
 	printf(" *ptr++ =	%d\n", *ptr);
-	
+
 	ptr = &num;
 	(*ptr)++;
 	printf(" (*ptr)++ =	%d\n", *ptr);
-	
+
 	return (0);
 }
