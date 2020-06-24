@@ -43,10 +43,8 @@ struct AC_chars_counts
 
 #define NUMBER_OF_ELEMENTS_IN_STRUCT_ARRAY	(SIZE_OF_ARRAY_OF_STRUCT_CHAR_COUNT /SIZE_OF_ONE_STRUCT_OF_CHAR_COUNT)
 
-
 int main(void)
 {
-
 	//variable declarations
 	char ch_input_string[AC_MAX_STRING_LENGTH];
 	int j, i;
