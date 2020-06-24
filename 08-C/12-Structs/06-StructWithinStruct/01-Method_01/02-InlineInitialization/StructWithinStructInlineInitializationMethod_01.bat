@@ -1,0 +1,9 @@
+del StructWithinStructInlineInitializationMethod_01.obj
+
+del StructWithinStructInlineInitializationMethod_01.exe
+
+cl.exe /c /EHsc StructWithinStructInlineInitializationMethod_01.c
+
+link.exe StructWithinStructInlineInitializationMethod_01.obj
+
+StructWithinStructInlineInitializationMethod_01.exe

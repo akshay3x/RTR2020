@@ -1,0 +1,9 @@
+del StructWithinStructDeclarationMethod_02.obj
+
+del StructWithinStructDeclarationMethod_02.exe
+
+cl.exe /c /EHsc StructWithinStructDeclarationMethod_02.c
+
+link.exe StructWithinStructDeclarationMethod_02.obj
+
+StructWithinStructDeclarationMethod_02.exe
