@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <math.h>
 
-//structure declarations
-struct AC_MyLine
-{
-	struct AC_MyPoint
-	{
-		int ix;
-		int iy;
-	} point_P1, point_P2;
 
-} line_L1 = { {-1, -8}, {-1, 5} };
 
 int main(void)
 {
+
+	//structure definition
+	struct AC_MyLine
+	{
+		struct AC_MyPoint
+		{
+			int ix;
+			int iy;
+		} point_P1, point_P2;
+	} line_L1 = { {-1, -8}, {-1, 5} };
+
 	//variable declarations
 	int xdiff = 0;
 	int ydiff = 0;
