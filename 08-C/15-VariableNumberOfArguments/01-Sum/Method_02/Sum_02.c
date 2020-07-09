@@ -12,13 +12,13 @@ int main(void)
 	//code
 	printf("\n\n");
 
-	answer = CalculateSum(20, 21, 22);
+	answer = CalculateSum(3, 20, 21, 22);
 	printf("answer = %d\n\n", answer);
 
-	answer = CalculateSum(20, 21, 22, 23);
+	answer = CalculateSum(4, 20, 21, 22, 23);
 	printf("answer = %d\n\n", answer);
 
-	answer = CalculateSum(20, 21, 22, 23, 24);
+	answer = CalculateSum(5, 20, 21, 22, 23, 24);
 	printf("answer = %d\n\n", answer);
 
 	answer = CalculateSum(0);

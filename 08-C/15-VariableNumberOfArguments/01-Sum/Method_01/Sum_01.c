@@ -11,16 +11,16 @@ int main(void)
 
 	//code
 	printf("\n\n");
-	answer = CalculateSum(9, 10, 11);
+	answer = CalculateSum(3, 9, 10, 11);
 	printf("answer = %d\n\n", answer);
 
-	answer = CalculateSum(9, 10, 11, 12);
+	answer = CalculateSum(4, 9, 10, 11, 12);
 	printf("answer = %d\n\n", answer);
 
-	answer = CalculateSum(9, 10, 11, 12, 13);
+	answer = CalculateSum(5, 9, 10, 11, 12, 13);
 	printf("answer = %d\n\n", answer);
 
-	answer = CalculateSum(9, 10, 11, 12, 13, 14);
+	answer = CalculateSum(6, 9, 10, 11, 12, 13, 14);
 	printf("answer = %d\n\n", answer);
 
 	answer = CalculateSum(0);
