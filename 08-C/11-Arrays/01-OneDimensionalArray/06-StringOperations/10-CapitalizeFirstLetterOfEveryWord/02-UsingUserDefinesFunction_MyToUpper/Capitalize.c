@@ -78,7 +78,7 @@ int AcMyStringLength(char str[])
 	int ac_i;
 
 	//code
-	for(ac_i=0; ac_i < AC_MAX_STRING_LENGTH; ac_i++)
+	for(ac_i = 0; ac_i < AC_MAX_STRING_LENGTH; ac_i++)
 	{
 		if(str[ac_i] == '\0')
 			break;

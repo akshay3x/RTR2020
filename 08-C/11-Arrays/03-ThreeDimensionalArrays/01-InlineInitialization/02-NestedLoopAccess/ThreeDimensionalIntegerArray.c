@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include <stdio.h>
 
 int main(void)
 {
@@ -46,9 +46,7 @@ int main(void)
 	printf("Size of Array = %d", i_ac_int_size);
 	
 	i_ac_array_width = i_ac_int_size / sizeof(i_ac_Array[0]);
-
 	i_ac_array_height = sizeof(i_ac_Array[0]) / sizeof(i_ac_Array[0][0]);
-	
 	i_ac_array_depth = sizeof(i_ac_Array[0][0])/ sizeof(i_ac_Array[0][0][0]);
 
 	printf("\n");
