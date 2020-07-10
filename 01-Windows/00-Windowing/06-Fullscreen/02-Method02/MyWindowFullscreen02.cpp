@@ -137,9 +137,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 void ToggleFullScreen(void)
 {
 	//variable declarations
-	DEVMODE dmScreenSettings;                               // Device Mode
-    memset(&dmScreenSettings,0,sizeof(dmScreenSettings));   // Makes Sure Memory's Cleared
-    dmScreenSettings.dmSize=sizeof(dmScreenSettings);       // Size Of The Devmode Structure
+	DEVMODE dmScreenSettings;									// Device Mode
+	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));   // Makes Sure Memory's Cleared
+	dmScreenSettings.dmSize = sizeof(dmScreenSettings);       // Size Of The Devmode Structure
 
 
 	//code
@@ -148,10 +148,7 @@ void ToggleFullScreen(void)
 		dwStyle = GetWindowLong(ghwnd, GWL_STYLE);
 		GetWindowPlacement(ghwnd, &wpPrev);
 
-		dmScreenSettings.dmPelsWidth = MY_WINDOW_WIDTH;
-		dmScreenSettings.dmPelsHeight = MY_WINDOW_HIGHT;
-		dmScreenSettings.dmBitsPerPel = 32;
-		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+		EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmScreenSettings);
 
 		if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
 		{
@@ -164,8 +161,8 @@ void ToggleFullScreen(void)
 		SetWindowPos(	ghwnd, HWND_TOP, 
 						0, 
 						0,
-						MY_WINDOW_WIDTH,
-						MY_WINDOW_HIGHT,
+						dmScreenSettings.dmPelsWidth,
+						dmScreenSettings.dmPelsHeight,
 						SWP_NOZORDER | SWP_FRAMECHANGED);
 
 		ShowCursor(FALSE);
