@@ -137,9 +137,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 void ToggleFullScreen(void)
 {
 	//variable declarations
-	DEVMODE dmScreenSettings;									// Device Mode
-	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));   // Makes Sure Memory's Cleared
-	dmScreenSettings.dmSize = sizeof(dmScreenSettings);       // Size Of The Devmode Structure
+	DEVMODE dmScreenSettings;									
+	memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));   
+	dmScreenSettings.dmSize = sizeof(dmScreenSettings);
 
 
 	//code
@@ -149,13 +149,6 @@ void ToggleFullScreen(void)
 		GetWindowPlacement(ghwnd, &wpPrev);
 
 		EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dmScreenSettings);
-
-		if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
-		{
-			MessageBox(ghwnd, TEXT("Error"), TEXT("Message"), MB_OK );
-			exit(0);
-			
-		}
 
 		SetWindowLong(ghwnd, GWL_STYLE, (dwStyle & ~(WS_OVERLAPPEDWINDOW)));
 		SetWindowPos(	ghwnd, HWND_TOP, 
@@ -170,12 +163,6 @@ void ToggleFullScreen(void)
 	}
 	else
 	{
-		if (ChangeDisplaySettings(NULL, CDS_RESET) != DISP_CHANGE_SUCCESSFUL)
-		{
-			MessageBox(ghwnd, TEXT("Error"), TEXT("Message"), MB_OK );
-			exit(0);
-		}
-
 		SetWindowPlacement(ghwnd, &wpPrev);
 		SetWindowLong(ghwnd, GWL_STYLE, (dwStyle | WS_OVERLAPPEDWINDOW));
 		SetWindowPos(	ghwnd, HWND_TOP, 
