@@ -1,0 +1,4 @@
+#include "MyOGL_Template.h"
+
+MYICON ICON ARC.ICO
+
