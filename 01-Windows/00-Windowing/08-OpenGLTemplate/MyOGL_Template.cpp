@@ -10,11 +10,13 @@
 
 //global variable declarations
 DWORD dwStyle;
-WINDOWPLACEMENT wpPrev = {sizeof(WINDOWPLACEMENT)};
-bool gbFullScreen = false;
 HWND ghwnd = NULL;
 FILE *gpFile = NULL;
+
+bool gbFullScreen = false;
 bool gbActiveWindow = false;
+
+WINDOWPLACEMENT wpPrev = {sizeof(WINDOWPLACEMENT)};
 
 //winproc declaration
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -94,8 +96,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 
 	ghwnd = hwnd;
 
-	ShowWindow(hwnd, iCmdShow);
 	initialize();
+
+	ShowWindow(hwnd, iCmdShow);
 	SetForegroundWindow(hwnd);
 	SetFocus(hwnd);
 
@@ -114,9 +117,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 		}
 		else
 		{
+			if(gbActiveWindow == true)
+			{
 			//HERE YOU SHOULD CALL UPDATE FUNCTION FOR OPENGL RENDERING
 			//HERE YOU SHOULD CALL DISPLAY FUNCTION FOR OPENGL RENDERING
 			display();
+			}
 		}
 	}
 
@@ -128,6 +134,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	//function declarations
 	void ToggleFullScreen(void);
 	void uninitialize(void);
+	void resize(int, int);
 
 	//variable declarations
 
@@ -149,6 +156,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 		case WM_ERASEBKGND:
 				return(0);
+				
+		case WM_SIZE:
+			resize(LOWORD(lParam), HIWORD(lParam));
+			break;
 
 		case WM_KEYDOWN:
 				switch(wParam)
@@ -238,7 +249,7 @@ void initialize(void)
 	void resize(int, int);
 
 	//variable declarations
-	
+
 	//code
 	resize(MY_WINDOW_WIDTH, MY_WINDOW_HIGHT);
 }
@@ -248,19 +259,20 @@ void resize(int width, int hight)
 	//code
 	if(hight == 0)
 		hight = 1;
-
 }
 
 void display(void)
 {
 	//code
 	
-	
 }
 
 void uninitialize(void)
 {
 	//closing File
-	fclose(gpFile);
-	gpFile = NULL;
+	if(gpFile)
+	{
+		fclose(gpFile);
+		gpFile = NULL;
+	}
 }
