@@ -20,7 +20,7 @@ int main()
 {
 	//variable Declarations
 	int iOption;
-	
+
 	//code
 	while(1)
 	{
@@ -31,34 +31,34 @@ int main()
 		printf(" [3]. DISPLAY\n");
 		printf(" [4]. EXIT\n");
 		printf(" -----------\n");
-		
+
 		printf(" Enter Option: ");
 		scanf("%d", &iOption);
-		
+
 		switch(iOption)
 		{
 			case 1:
 				Enqueue();
 				break;
-			
+
 			case 2:
 				Dequeue();
 				break;
-			
+
 			case 3:
 				DisplayQueue();
 				break;
-			
+
 			case 4:
 			while(Front != NULL)
 				Dequeue();
 				exit(0);
-			
+
 			default :
 				break;
 		}
 	}
-	
+
 	return 0;
 }
 
