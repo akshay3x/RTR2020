@@ -308,7 +308,7 @@ void resize(int width, int hight)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	gluPerspective(-45.0f,
+	gluPerspective(45.0f,
 					(GLfloat)width/(GLfloat)hight,
 					0.1f,
 					100.0f);
