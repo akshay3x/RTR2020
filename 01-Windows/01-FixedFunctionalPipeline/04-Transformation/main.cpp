@@ -249,34 +249,20 @@ void initialize(void)
 	//code
 	ghdc = GetDC(ghwnd);
 	ZeroMemory(&pfd, sizeof(PIXELFORMATDESCRIPTOR));
-	//memset((void *) &pfd, 0, sizeof(PIXELFORMATDESCRIPTOR))
 
 	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-	
 	pfd.nVersion = 1;
-	//opengl version
-	
 	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-	//flags for minimum values to be modified
-	//can alo be BITMAP
-	//pixel of highest quality OpenGL
-	
 	pfd.iPixelType = PFD_TYPE_RGBA;
-	//type of pixel required for rendering
 
 	pfd.cColorBits = 32;
-	//maximum color bits per pixel
-	
 	pfd.cRedBits = 8;
 	pfd.cGreenBits = 8;
 	pfd.cBlueBits = 8;
 	pfd.cAlphaBits = 8;
-	
 	//pfd.cDepthBits = 8;
-	
+
 	iPixelFormatIndex = ChoosePixelFormat(ghdc, &pfd);
-	//choose pixel format from ghdc of type pfd and return its index
-	//if index is 0, it is not found or error
 	if(iPixelFormatIndex == 0)
 	{
 		fprintf(gpFile, "DEBUG:ChoosePixelFormat() Failed\n");
@@ -284,40 +270,25 @@ void initialize(void)
 	}
 
 	if(SetPixelFormat(ghdc, iPixelFormatIndex, &pfd) == FALSE)
-		//set the pixel format from ghdc to pfd 
 	{
 		fprintf(gpFile, "DEBUG:SetPixelFormat() Failed\n");
 		DestroyWindow(ghwnd);
 	}
-	
+
 	ghrc = wglCreateContext(ghdc);
-	//bridging APIs
-	//WSI windowing Sysyem Integration
-	
-	//Windows: Window Graphics Library
-	//MAC: CGL Core Graphics Library(old AGL)
-	//Linux: GLX Graphics Library for Xwindows
-	//Android: EGL Embedded Graphics Library
-	//iOS: EAGL
-	//WebGL: EGL
-	
-	//GLRC: handle to graphics library redering context
-	
+
 	if(ghrc == NULL)
 	{
 		fprintf(gpFile, "DEBUG:wglCreateContext() Failed\n");
-		DestroyWindow(ghwnd);//added new
+		DestroyWindow(ghwnd);
 	}
 
-
-	//make the corrent contest as ghrc instead of ghdc
 	if(wglMakeCurrent(ghdc, ghrc) == FALSE)
 	{
 		fprintf(gpFile, "DEBUG:wgl_MakeContext() Failed\n");
 		DestroyWindow(ghwnd);
 	}
 
-	//Set ClearColor
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//WarmUp resize() Call
