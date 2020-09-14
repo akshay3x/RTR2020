@@ -29,8 +29,6 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
-GLfloat angle = 0.0f;
-
 //WinMain()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -323,9 +321,11 @@ void resize(int width, int hight)
 
 void display(void)
 {
+	//variable declarations
+	float i;
+
 	//code
 	glClear(GL_COLOR_BUFFER_BIT);
-	float i;
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
