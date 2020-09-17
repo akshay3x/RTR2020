@@ -409,7 +409,7 @@ void display(void)
 			glVertex3f(-0.45f, -0.3f, 0.0f);
 			glVertex3f(-0.40f, -0.3f, 0.0f);
 	glEnd();
-	
+
 
 	glBegin(GL_QUADS);
 		glColor3f(1.0f, 0.0f, 0.0f);
@@ -426,7 +426,8 @@ void display(void)
 			
 		glColor3f(0.0f, 1.0f, 0.0f);
 			glVertex3f(-0.45f, -0.3f, 0.0f);
-			glVertex3f(-0.40f, -0.3f, 0.0f);	glEnd();
+			glVertex3f(-0.40f, -0.3f, 0.0f);
+	glEnd();
 
 //------ D ---------------------------------------------------
 //1
@@ -578,35 +579,8 @@ void display(void)
 			glVertex3f(0.65f, -0.3f, 0.0f);
 			glVertex3f(0.60f, -0.3f, 0.0f);
 	glEnd();
-
-
 //-----------------------------------------------------------------------
-/*
-	glLineWidth(2.0f);
 
-	glBegin(GL_LINES);
-	glColor3f(1.0f, 0.0f, 0.0f);
-			glVertex3f(0.0f, 1.0f, 0.0f);
-			glVertex3f((cos(GLfloat(PIE * 7.0/6.0))), sin(GLfloat(PIE * 7.0/6.0)), 0.0f);
-
-			glVertex3f(0.0f, 1.0f, 0.0f);
-			glVertex3f((cos(GLfloat(PIE * 11.0/6.0))), sin(GLfloat(PIE * 11/6.0)), 0.0f);
-
-			glVertex3f((cos(GLfloat(PIE * 7.0/6.0))), sin(GLfloat(PIE * 7.0/6.0)), 0.0f);
-			glVertex3f((cos(GLfloat(PIE * 11.0/6.0))), sin(GLfloat(PIE * 11/6.0)), 0.0f);
-	glEnd();
-
-	glPointSize(1.0f);
-	glBegin(GL_POINTS);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		for(i = 0; i < 6.28; i = i + 0.0001f )
-		{
-			glVertex3f((GLfloat((1.0f)+sin(GLfloat(PIE * 7.0/6.0))) * float(cos(i))), (GLfloat((1.0f)+(sin(GLfloat(PIE * 7.0/6.0)))) * float(sin(i))), 0.0f);
-		}
-	glEnd();
-
-
-*/
 	SwapBuffers(ghdc);
 }
 
