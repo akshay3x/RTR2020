@@ -320,31 +320,56 @@ void resize(int width, int hight)
 void display(void)
 {
 
-	//variable declarations
-	float i;
+	//function declarations
+	void drawGraph(void);
+	void drawCircle(void);
 
 	//code
 	glClear(GL_COLOR_BUFFER_BIT);
-
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	glTranslatef(0.0f, 0.0f, -3.0f);
 
+	drawGraph();
+	drawCircle();
+
+	SwapBuffers(ghdc);
+}
+
+void drawGraph(void)
+{
+
+	//variable declarations
+	float i;
+
 	glBegin(GL_LINES);
 
-		for(i = -1.00f; i <= 1.00f; i = i + 0.050f)
+		for(i = -1.00f; i <= 1.05f; i = i + 0.050f)
 		{
 			glColor3f(0.0f, 0.0f, 1.0f);
 			glVertex3f(-1.0f, i, 0.0f);
 			glVertex3f(1.0f, i, 0.0f);
 
-			glColor3f(1.0f, 0.0f, 0.0f);
 			glVertex3f(i, 1.0f, 0.0f);
 			glVertex3f(i, -1.0f, 0.0f);
 		}
+
+		glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, 0.0f, 0.0f);
+
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(0.0f, -1.0f, 0.0f);
 	glEnd();
+
+}
+void drawCircle(void)
+{
+	//variable declarations
+	float i;
 
 	glBegin( GL_LINE_LOOP);
 		glColor3f(1.0f, 1.0f, 0.0f);
@@ -353,8 +378,8 @@ void display(void)
 			glVertex3f(0.5f * (float(cos(i + 0.0001f))), (0.5f * float(sin(i+0.0001f))), 0.0f);
 		}
 	glEnd();
-	SwapBuffers(ghdc);
 }
+
 
 void update(void)
 {
