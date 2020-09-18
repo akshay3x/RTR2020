@@ -11,9 +11,9 @@
 #pragma comment(lib, "glu32.lib")
 
 //macro definitions
-#define WIN_WIDTH 800
-#define WIN_HIGHT 600
-#define PIE       3.1415926535
+#define WIN_WIDTH 	800
+#define WIN_HIGHT 	600
+#define GL_PI		3.1415926535
 
 //window procedure
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -31,9 +31,9 @@ bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
 GLfloat angle = 0.0f;
-GLfloat xMove = 0;
-GLfloat yMove = 0;
-GLfloat zMove = 0;
+GLfloat xMove = 0.0f;
+GLfloat yMove = 0.0f;
+GLfloat zMove = 0.0f;
 
 //WinMain()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
@@ -185,6 +185,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					DestroyWindow(hwnd);
 					break;
 
+				case 0x47:
+					angle = 0.0f;
+					xMove = 0.0f;
+					yMove = 0.0f;
+					zMove = 0.0f;
+					break;
+
 				default:
 					break;
 			}
@@ -327,8 +334,11 @@ void resize(int width, int hight)
 
 void display(void)
 {
-	//variable declarations
-	float i;
+
+	//function declarations
+	void drawWand(void);
+	void drawCloak(void);
+	void drawStone(void);
 
 	//code
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -336,66 +346,85 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslatef(-1.0f + xMove, 0.0f, -3.0f);
+	glTranslatef(-2.0f + xMove, 0.0f, -3.0f);
 
+	drawCloak();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glTranslatef(2.0f - yMove, 0.0f, -3.0f);
+	glPointSize(1.0f);
+
+	drawStone();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	glTranslatef(0.0f, -2.0f + zMove, -3.0f);
+
+	drawWand();
+
+	SwapBuffers(ghdc);
+}
+
+void drawWand(void)
+{
+	glBegin(GL_LINES);
+		glColor3f(0.0f, 0.0f, 1.0f);
+			glVertex3f(0.0f, 1.0f, 0.0f);
+			glVertex3f(0.0f, (sin(GLfloat(GL_PI * 7.0/6.0))), 0.0f);
+	glEnd();
+}
+void drawCloak(void)
+{
 	glLineWidth(2.0f);
 
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 0.0f, 0.0f);
 			glVertex3f(0.0f, 1.0f, 0.0f);
-			glVertex3f((cos(GLfloat(PIE * 7.0/6.0))), sin(GLfloat(PIE * 7.0/6.0)), 0.0f);
+			glVertex3f((cos(GLfloat(GL_PI * 7.0/6.0))), sin(GLfloat(GL_PI * 7.0/6.0)), 0.0f);
 
 			glVertex3f(0.0f, 1.0f, 0.0f);
-			glVertex3f((cos(GLfloat(PIE * 11.0/6.0))), sin(GLfloat(PIE * 11/6.0)), 0.0f);
+			glVertex3f((cos(GLfloat(GL_PI * 11.0/6.0))), sin(GLfloat(GL_PI * 11/6.0)), 0.0f);
 
-			glVertex3f((cos(GLfloat(PIE * 7.0/6.0))), sin(GLfloat(PIE * 7.0/6.0)), 0.0f);
-			glVertex3f((cos(GLfloat(PIE * 11.0/6.0))), sin(GLfloat(PIE * 11/6.0)), 0.0f);
+			glVertex3f((cos(GLfloat(GL_PI * 7.0/6.0))), sin(GLfloat(GL_PI * 7.0/6.0)), 0.0f);
+			glVertex3f((cos(GLfloat(GL_PI * 11.0/6.0))), sin(GLfloat(GL_PI * 11/6.0)), 0.0f);
 	glEnd();
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+}
+void drawStone(void)
+{
+	//variable declarations
+	float i;
 
-	glTranslatef(1.0f - yMove, 0.0f, -3.0f);
-
-	glPointSize(1.0f);
-
+	//code
 	glBegin(GL_POINTS);
 		glColor3f(0.0f, 1.0f, 0.0f);
 		for(i = 0; i < 6.28; i = i + 0.0001f )
 		{
-			glVertex3f((GLfloat((1.0f)+sin(GLfloat(PIE * 7.0/6.0))) * float(cos(i))), (GLfloat((1.0f)+(sin(GLfloat(PIE * 7.0/6.0)))) * float(sin(i))), 0.0f);
+			glVertex3f((GLfloat((1.0f)+sin(GLfloat(GL_PI * 7.0/6.0))) * float(cos(i))),
+			(GLfloat((1.0f)+(sin(GLfloat(GL_PI * 7.0/6.0)))) * float(sin(i))),
+			0.0f);
 		}
 	glEnd();
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glTranslatef(0.0f, -1.0f + zMove, -3.0f);
-
-
-	glBegin(GL_LINES);
-		glColor3f(0.0f, 0.0f, 1.0f);
-			glVertex3f(0.0f, 1.0f, 0.0f);
-			glVertex3f(0.0f, (sin(GLfloat(PIE * 7.0/6.0))), 0.0f);
-	glEnd();
-
-
-	SwapBuffers(ghdc);
 }
+
 
 void update(void)
 {
 	xMove = xMove + 0.001f;
-	if(xMove >=1.0f)
-		xMove = 1.0f;
+	if(xMove >=2.0f)
+		xMove = 2.0f;
 
 	zMove = zMove + 0.001f;
-	if(zMove >=1.0f)
-		zMove = 1.0f;
+	if(zMove >=2.0f)
+		zMove = 2.0f;
 
 	yMove = yMove + 0.001f;
-	if(yMove >=1.0f)
-		yMove = 1.0f;
+	if(yMove >=2.0f)
+		yMove = 2.0f;
 
 }
 
