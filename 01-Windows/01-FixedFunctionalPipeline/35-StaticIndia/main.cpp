@@ -355,7 +355,7 @@ void drawLetterI(void)
 {
 //----- I ------------------------------------------------------
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.90f, 0.30f, 0.0f);
 			glVertex3f(-0.75f, 0.30f, 0.0f);
 			glVertex3f(-0.75f, 0.25f, 0.0f);
@@ -371,7 +371,7 @@ void drawLetterI(void)
 	glEnd();
 
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.85f, 0.3f, 0.0f);
 			glVertex3f(-0.80f, 0.3f, 0.0f);
 
@@ -393,7 +393,7 @@ void drawLetterN(void)
 {
 //-------- N ---------------------------------------------------
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.65f, 0.3f, 0.0f);
 			glVertex3f(-0.60f, 0.3f, 0.0f);
 
@@ -411,8 +411,7 @@ void drawLetterN(void)
 	glEnd();
 
 	glBegin(GL_QUADS);
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.45f, 0.3f, 0.0f);
 			glVertex3f(-0.40f, 0.3f, 0.0f);
 
@@ -431,7 +430,7 @@ void drawLetterN(void)
 
 
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.65f, 0.3f, 0.0f);
 			glVertex3f(-0.60f, 0.3f, 0.0f);
 
@@ -454,7 +453,7 @@ void drawLetterD(void)
 //------ D ---------------------------------------------------
 //1
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.25f, 0.3f, 0.0f);
 			glVertex3f(-0.20f, 0.3f, 0.0f);
 
@@ -473,7 +472,7 @@ void drawLetterD(void)
 
 //2
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.25f, 0.3f, 0.0f);
 			glVertex3f(-0.10f, 0.3f, 0.0f);
 			glVertex3f(-0.10f, 0.25f, 0.0f);
@@ -491,7 +490,7 @@ void drawLetterD(void)
 
 //4
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(-0.10f,  0.3f, 0.0f);
 			glVertex3f(-0.10f,  0.25f, 0.0f);
 			glVertex3f( 0.00f,  0.15f, 0.0f);
@@ -500,7 +499,7 @@ void drawLetterD(void)
 
 //5
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f( 0.05f,  0.15f, 0.0f);
 			glVertex3f( 0.00f,  0.15f, 0.0f);
 		glColor3f(1.0f, 1.0f, 1.0f);
@@ -528,7 +527,7 @@ void drawLetterI2(void)
 {
 //----------- I -----------------------------------------------------
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(0.30f, 0.30f, 0.0f);
 			glVertex3f(0.15f, 0.30f, 0.0f);
 			glVertex3f(0.15f, 0.25f, 0.0f);
@@ -545,7 +544,7 @@ void drawLetterI2(void)
 	glEnd();
 
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(0.25f, 0.3f, 0.0f);
 			glVertex3f(0.20f, 0.3f, 0.0f);
 
@@ -567,7 +566,7 @@ void drawLetterA(void)
 {
 //--------- A --------------------------------------------------------
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(0.50f, 0.3f, 0.0f);
 			glVertex3f(0.55f, 0.3f, 0.0f);
 
@@ -585,7 +584,7 @@ void drawLetterA(void)
 	glEnd();
 
 	glBegin(GL_QUADS);
-		glColor3f(1.0f, 0.0f, 0.0f);
+		glColor3f(1.0f, 0.40f, 0.0f);
 			glVertex3f(0.50f, 0.3f, 0.0f);
 			glVertex3f(0.55f, 0.3f, 0.0f);
 
