@@ -30,7 +30,8 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
-GLfloat angle = 0.0f;
+GLfloat angleTri = 0.0f;
+GLfloat angleCir = 0.0f;
 GLfloat xMove = 0.0f;
 GLfloat yMove = 0.0f;
 GLfloat zMove = 0.0f;
@@ -186,7 +187,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case 0x47:
-					angle = 0.0f;
+					angleCir = 0.0f;
+					angleTri = 0.0f;
 					xMove = 0.0f;
 					yMove = 0.0f;
 					zMove = 0.0f;
@@ -347,22 +349,21 @@ void display(void)
 	glLoadIdentity();
 
 	glTranslatef(-2.0f + xMove, 0.0f, -3.0f);
-
+	glRotatef(angleTri, 0.0, 1.0f, 0.0f);
 	drawCloak();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	glTranslatef(2.0f - yMove, 0.0f, -3.0f);
+	glRotatef(angleCir-180, 0.0, 1.0f, 0.0f);
 	glPointSize(1.0f);
-
 	drawStone();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	glTranslatef(0.0f, -2.0f + zMove, -3.0f);
-
 	drawWand();
 
 	SwapBuffers(ghdc);
@@ -426,6 +427,13 @@ void update(void)
 	if(yMove >=2.0f)
 		yMove = 2.0f;
 
+	angleTri = angleTri + 0.4f;
+	if(angleTri >= 360.0f)
+		angleTri = 0.0f;
+
+	angleCir = angleCir + 0.4f;
+	if(angleCir >= 360.0f)
+		angleCir = 0.0f;
 }
 
 void uninitialize(void)
