@@ -28,16 +28,16 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
-UINT gVx;
-UINT gVy;
-UINT gVwidth = WIN_WIDTH;
-UINT gVhight = WIN_HIGHT;
+
+UINT gVx = 0;
+UINT gVy = 0;
 
 UINT gWidth;
 UINT gHight;
 
-UINT gWidth2;
-UINT gHight2;
+UINT gVwidth = WIN_WIDTH;
+UINT gVhight = WIN_HIGHT;
+
 
 
 //WinMain()
@@ -398,7 +398,7 @@ void resize(int width, int hight)
 	if(hight == 0)
 		hight = 1;
 
-	glViewport(gVx,gVy, gVwidth, gVhight);
+	glViewport(gVx, gVy, gVwidth, gVhight);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
