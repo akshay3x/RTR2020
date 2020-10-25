@@ -28,8 +28,16 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
+UINT gVx;
+UINT gVy;
+UINT gVwidth = WIN_WIDTH;
+UINT gVhight = WIN_HIGHT;
+
 UINT gWidth;
 UINT gHight;
+
+UINT gWidth2;
+UINT gHight2;
 
 
 //WinMain()
@@ -88,9 +96,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 
 	gWidth = rect.right;
 	gHight = rect.bottom;
-
+	
 	HorPos = (rect.right - WIN_WIDTH) / 2;
 	VerPos = (rect.bottom - WIN_HIGHT) / 2;
+
 
 	//creating window
 	hwnd = CreateWindowEx(	WS_EX_APPWINDOW,
@@ -175,7 +184,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			switch(wParam)
 			{
 				case 0x46:
-				case 0x66:
 					ToggleFullscreen();
 					break;
 
@@ -185,58 +193,87 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 				case 0x30:
 				case VK_NUMPAD0:
-					glViewport(0, 0, GLsizei(gWidth), GLsizei(gHight));
+					gVx = 0;
+					gVy = 0;
+					gVwidth = gWidth;
+					gVhight = gHight;
 					break;
 
 				case 0x31:
 				case VK_NUMPAD1:
-					glViewport(0, GLsizei(gHight)/2.0f, GLsizei(gWidth)/2.0f, GLsizei(gHight)/2.0f);
+					gVx = 0;
+					gVy = GLsizei(gHight)/2.0f;
+					gVwidth = GLsizei(gWidth)/2.0f;
+					gVhight = GLsizei(gHight)/2.0f;
 					break;
 
 				case 0x32:
 				case VK_NUMPAD2:
-					glViewport( GLsizei(gWidth)/2.0f, GLsizei(gHight)/2.0f, GLsizei(gWidth)/2.0f, GLsizei(gHight)/2.0f);
+					gVx = GLsizei(gWidth)/2.0f;
+					gVy = GLsizei(gHight)/2.0f;
+					gVwidth = GLsizei(gWidth)/2.0f;
+					gVhight = GLsizei(gHight)/2.0f;
 					break;
 
 				case 0x33:
 				case VK_NUMPAD3:
-					glViewport( GLsizei(gWidth)/2.0f, 0, GLsizei(gWidth)/2.0f, GLsizei(gHight)/2.0f);
+					gVx = GLsizei(gWidth)/2.0f;
+					gVy = 0;
+					gVwidth = GLsizei(gWidth)/2.0f;
+					gVhight = GLsizei(gHight)/2.0f;
 					break;
 
 				case 0x34:
 				case VK_NUMPAD4:
-					glViewport( 0, 0, GLsizei(gWidth)/2.0f, GLsizei(gHight)/2.0f);
+					gVx = 0;
+					gVy = 0;
+					gVwidth = GLsizei(gWidth)/2.0f;
+					gVhight = GLsizei(gHight)/2.0f;
 					break;
 
 				case 0x35:
 				case VK_NUMPAD5:
-					glViewport( 0, 0, GLsizei(gWidth)/2.0f, GLsizei(gHight));
+					gVx = 0;
+					gVy = 0;
+					gVwidth = GLsizei(gWidth)/2.0f;
+					gVhight = GLsizei(gHight);
 					break;
 
 				case 0x36:
-//				case VK_NUMPAD6:
-					glViewport( GLsizei(gWidth)/2.0f, 0, GLsizei(gWidth)/2.0f, GLsizei(gHight));
+					gVx = GLsizei(gWidth)/2.0f;
+					gVy = 0;
+					gVwidth = GLsizei(gWidth)/2.0f;
+					gVhight = GLsizei(gHight);
 					break;
 
 				case 0x37:
 				case VK_NUMPAD7:
-					glViewport( 0, GLsizei(gHight)/2.0f, GLsizei(gWidth), GLsizei(gHight)/2.0f);
+					gVx = 0;
+					gVy = GLsizei(gHight)/2.0f;
+					gVwidth = GLsizei(gWidth);
+					gVhight = GLsizei(gHight)/2.0f;
 					break;
 
 				case 0x38:
 				case VK_NUMPAD8:
-					glViewport( 0, 0, GLsizei(gWidth), GLsizei(gHight)/2.0f);
+					gVx = 0;
+					gVy = 0;
+					gVwidth = GLsizei(gWidth);
+					gVhight = GLsizei(gHight)/2.0f;
 					break;
 
 				case 0x39:
 				case VK_NUMPAD9:
-					glViewport( GLsizei(gWidth)/4.0f, GLsizei(gHight)/4.0f, GLsizei(gWidth)/2.0f, GLsizei(gHight)/2.0f);
+					gVx = GLsizei(gWidth)/4.0f;
+					gVy = GLsizei(gHight)/4.0f;
+					gVwidth = GLsizei(gWidth)/2.0f;
+					gVhight = GLsizei(gHight)/2.0f;
 					break;
 
 				default:
 					break;
 			}
-			resize(gWidth, gHight);
+			resize(gVwidth, gVhight);
 			break;
 
 		case WM_CLOSE:
@@ -361,11 +398,13 @@ void resize(int width, int hight)
 	if(hight == 0)
 		hight = 1;
 
+	glViewport(gVx,gVy, gVwidth, gVhight);
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
 	gluPerspective(45.0f,
-					(GLfloat)width/(GLfloat)hight,
+					(GLfloat)gVwidth/(GLfloat)gVhight,
 					0.1f,
 					100.0f);
 
@@ -382,7 +421,7 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslatef(0.0f, 0.0f, -3.0f);
+	glTranslatef(0.0f, 0.0f, -4.0f);
 	glRotatef(angle, 0.0f, 1.0f, 0.0f);
 
 	glBegin(GL_TRIANGLES);
@@ -398,7 +437,7 @@ void display(void)
 
 	glEnd();
 
-	angle = angle + 0.1f;
+	angle = angle + 5.0f;
 
 	SwapBuffers(ghdc);
 }
