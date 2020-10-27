@@ -1,0 +1,6 @@
+#include "resource.h"
+
+MYICON ICON AppIcon.ico
+
+
+IDWAV_AUDIO_1 WAVE Audio.wav
