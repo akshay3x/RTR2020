@@ -665,8 +665,8 @@ void drawLetterA(void)
 void drawPlanes(void)
 {
 
-	movePlanesHor = movePlanesHor + 0.005;
-	movePlanesVer = movePlanesVer + 0.005;
+	movePlanesHor = movePlanesHor + 0.003;
+	movePlanesVer = movePlanesVer + 0.003;
 
 	if((movePlanesVer >= 0.8)&& (movePlanesHor < 1.00))
 		movePlanesVer = 0.8;
@@ -880,7 +880,7 @@ void drawFlagA(void)
 
 void update(void)
 {
-	moveLetter_I = moveLetter_I - 0.05f;
+	moveLetter_I = moveLetter_I - 0.02f;
 	if(moveLetter_I <= 0.0f)
 	{
 		moveLetter_I = 0.0f;
@@ -889,7 +889,7 @@ void update(void)
 
 	if(N_flag == 1)
 	{
-		moveLetter_N = moveLetter_N - 0.05f;
+		moveLetter_N = moveLetter_N - 0.02f;
 		{
 			if(moveLetter_N <= 0.0f)
 			{
@@ -901,7 +901,7 @@ void update(void)
 
 	if(D_flag == 1)
 	{
-		moveLetter_D = moveLetter_D + 0.05f;
+		moveLetter_D = moveLetter_D + 0.02f;
 		if(moveLetter_D >= 1.0f)
 		{
 			moveLetter_D = 1.0f;
@@ -911,7 +911,7 @@ void update(void)
 
 if(I2_flag == 1)
 	{
-		moveLetter_I2 = moveLetter_I2 - 0.05f;
+		moveLetter_I2 = moveLetter_I2 - 0.02f;
 		{
 			if(moveLetter_I2 <= 0.0f)
 			{
@@ -923,7 +923,7 @@ if(I2_flag == 1)
 
 	if(I_flag == 1)
 	{
-		moveLetter_A = moveLetter_A - 0.05f;
+		moveLetter_A = moveLetter_A - 0.02f;
 		{
 			if(moveLetter_A <= 0.0f)
 			{
@@ -935,7 +935,7 @@ if(I2_flag == 1)
 //	DrawFlag_flag
 	if(Planes_flag == 1)
 	{
-		showFlag = showFlag + 0.05f;
+		showFlag = showFlag + 0.02f;
 		if(showFlag >= 1.0f)
 		{
 			showFlag = 1.0f;
