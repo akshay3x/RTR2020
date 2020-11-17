@@ -1,0 +1,7 @@
+#include "resource.h"
+
+MYICON ICON AppIcon.ico
+
+STONE_BITMAP BITMAP Stone.bmp
+
+KUNDALI_BITMAP BITMAP Kundali.bmp
