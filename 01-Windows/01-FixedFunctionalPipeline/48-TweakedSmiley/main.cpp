@@ -185,21 +185,25 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case 49:
+				case VK_NUMPAD1:
 					pressedDigit = 1;
 					glEnable(GL_TEXTURE_2D);
 					break;
 
 				case 50:
+				case VK_NUMPAD2:
 					pressedDigit = 2;
 					glEnable(GL_TEXTURE_2D);
 					break;
 
 				case 51:
+				case VK_NUMPAD3:
 					pressedDigit = 3;
 					glEnable(GL_TEXTURE_2D);
 					break;
 
 				case 52:
+				case VK_NUMPAD4:
 					pressedDigit = 4;
 					glEnable(GL_TEXTURE_2D);
 					break;
@@ -394,7 +398,6 @@ void display(void)
 	glLoadIdentity();
 
 	glTranslatef( 0.0f, 0.0f, -6.0f);
-	glRotatef(angle, 1.0f, 0.0f, 0.0f);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBindTexture(GL_TEXTURE_2D, SmileyTexture);
 
@@ -415,9 +418,9 @@ void display(void)
 	else if(pressedDigit == 2)
 	{
 		glBegin(GL_QUADS);
-				glTexCoord2f( 0.0f, 1.0f);
+				glTexCoord2f( 0.0f, 0.5f);
 			glVertex3f(-1.0f, 1.0f, 0.0f);
-				glTexCoord2f( 0.5f, 1.0f);
+				glTexCoord2f( 0.5f, 0.5f);
 			glVertex3f(1.0f, 1.0f, 0.0f);
 				glTexCoord2f( 0.5f, 0.0f);
 			glVertex3f(1.0f, -1.0f, 0.0f);
@@ -466,11 +469,7 @@ void display(void)
 
 void update(void)
 {
-	angle = angle + 2.0f;
-
-	if(angle >= 360.0f)
-		angle = 0.0f;
-
+	//code
 }
 
 void uninitialize(void)
