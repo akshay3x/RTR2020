@@ -14,8 +14,8 @@
 #define WIN_WIDTH 800
 #define WIN_HIGHT 600
 
-#define CHECKER_IMAGE_HIGHT 256
-#define CHECKER_IMAGE_WIDTH 256
+#define CHECKER_IMAGE_HIGHT 64
+#define CHECKER_IMAGE_WIDTH 64
 
 //window procedure
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -32,7 +32,7 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
-GLuint checkImage[CHECKER_IMAGE_HIGHT][CHECKER_IMAGE_WIDTH][4];
+GLubyte checkImage[CHECKER_IMAGE_HIGHT][CHECKER_IMAGE_WIDTH][4];
 
 GLuint texName = 0;
 
