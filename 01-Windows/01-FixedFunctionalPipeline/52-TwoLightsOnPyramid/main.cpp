@@ -31,6 +31,9 @@ FILE *gpFile = NULL;
 GLfloat angle = 0.0f;
 
 bool gbLight = false;
+
+GLUquadric *quadric = NULL;
+
 //LightSource0
 GLfloat lightAmbientZero[]  = { 0.0f, 0.0f, 0.0f, 1.0f};
 GLfloat lightDiffuseZero[]  = { 1.0f, 0.0f, 0.0f, 1.0f}; //Red
@@ -49,9 +52,6 @@ GLfloat materialDiffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f}; //White
 GLfloat materialSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f}; //White
 GLfloat materialShininess  = 128.0f;
 
-
-
-GLUquadric *quadric = NULL;
 
 //WinMain()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
@@ -203,6 +203,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					DestroyWindow(hwnd);
 					break;
 
+				case 'L':
+				case 'l':
+					if(gbLight == false)
+					{
+						glEnable(GL_LIGHTING);
+						gbLight = true; 
+					}
+					else
+					{
+						glDisable(GL_LIGHTING);
+						gbLight = false;
+					}
+					break;
+
 				default:
 					break;
 			}
@@ -351,7 +365,6 @@ void initialize(void)
 	glMaterialfv(GL_FRONT, GL_SPECULAR,  materialSpecular);
 	glMaterialf(GL_FRONT,  GL_SHININESS, materialShininess);
 
-	glEnable(GL_LIGHTING);
 
 	//WarmUp resize() Call
 	resize(WIN_WIDTH, WIN_HIGHT);
