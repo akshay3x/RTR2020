@@ -1,0 +1,62 @@
+glTexCoord2f(
+
+//--------------------------------------
+// FRONT FACE
+glTexCoord2f( 0.0f, 0.0f);
+glTexCoord2f( 1.0f, 0.0f);
+glTexCoord2f( 1.0f, 1.0f);
+glTexCoord2f( 0.0f, 1.0f);
+
+// RIGHT FACE
+glTexCoord2f(  1.0f, 0.0f);
+glTexCoord2f(  1.0f, 1.0f);
+glTexCoord2f(  0.0f, 1.0f);
+glTexCoord2f(  0.0f, 0.0f);
+
+// BACK FACE
+glTexCoord2f( 1.0f, 0.0f);
+glTexCoord2f( 1.0f, 1.0f);
+glTexCoord2f( 0.0f, 1.0f);
+glTexCoord2f( 0.0f, 0.0f);
+
+// LEFT FACE
+glTexCoord2f(0.0f, 0.0f);
+glTexCoord2f(1.0f, 0.0f);
+glTexCoord2f(1.0f, 1.0f);
+glTexCoord2f(0.0f, 1.0f);
+
+// TOP FACE
+glTexCoord2f( 0.0f, 1.0f);
+glTexCoord2f( 0.0f, 0.0f);
+glTexCoord2f( 1.0f, 0.0f);
+glTexCoord2f( 1.0f, 1.0f);
+
+// BOTTOM FACE
+glTexCoord2f( 1.0f, 1.0f);
+glTexCoord2f( 0.0f, 1.0f);
+glTexCoord2f( 0.0f, 0.0f);
+glTexCoord2f( 1.0f, 0.0f);
+//--------------------------------------
+
+
+// FRONT FACE
+glTexCoord2f( 0.5f, 1.0f);
+glTexCoord2f( 0.0f, 0.0f);
+glTexCoord2f( 1.0f, 0.0f);
+
+// RIGHT FACE
+glTexCoord2f( 0.5f, 1.0f);
+glTexCoord2f( 1.0f, 0.0f);
+glTexCoord2f( 0.0f, 0.0f);
+
+// LEFT FACE
+glTexCoord2f( 0.5f, 1.0f);
+glTexCoord2f( 0.0f, 0.0f);
+glTexCoord2f( 1.0f, 0.0f);
+
+// BACK FACE
+glTexCoord2f( 0.5f, 1.0f);
+glTexCoord2f( 1.0f, 0.0f);
+glTexCoord2f( 0.0f, 0.0f);
+
+//----------------------------------------
