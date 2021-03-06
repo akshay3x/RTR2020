@@ -41,7 +41,6 @@ int main(void)
 	void resize(int, int);
 	void display(void);	//render, draw
 
-
 	//variable declarations
 	int winWidth = giWindowWidth;
 	int winHight = giWindowHight;
@@ -59,14 +58,13 @@ int main(void)
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
-	
+
 	CreateWindow();
 	fprintf(gpFile, "DEBUG:CreateWindow() Successful\n");
-	
+
 	initialize();
 	fprintf(gpFile, "DEBUG:initialize() Successful\n");
 
-	
 	//MessageLoop
 	XEvent event;
 	KeySym keysym;
@@ -77,7 +75,6 @@ int main(void)
 	{
 		while(XPending(gpDisplay))
 		{
-
 			XNextEvent(gpDisplay, &event);
 
 			switch(event.type)
@@ -152,12 +149,9 @@ int main(void)
 				default:
 				break;
 			}
-
 		}
-
 		display();
 	}
-
 	uninitialize();
 	return(0);
 }
@@ -231,7 +225,6 @@ void CreateWindow(void)
 							styleMask,
 							&winAttribs);
 
-
 	if(!gWindow)
 	{
 		fprintf(gpFile, "ERROR: Failed to create main window.\n Exiting...\n");
@@ -273,12 +266,10 @@ void ToggleFullscreen(void)
 		    False,
 		    StructureNotifyMask,
 		    &xev);
-
 }
 
 void initialize(void)
 {
-
 	//function declarations
 	void resize(int, int);
 
@@ -286,6 +277,7 @@ void initialize(void)
 	gGLXContext = glXCreateContext(gpDisplay, gpXVisualInfo, NULL, GL_TRUE);
 	glXMakeCurrent(gpDisplay, gWindow, gGLXContext);
 
+	//Set background color to blue
 	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 	//warmup resize call
@@ -296,14 +288,14 @@ void resize(int width, int hight)
 {
 	//code
 	if(hight <= 0)
-	hight = 1;
+		hight = 1;
 
 	glViewport(0, 0, GLsizei(width), GLsizei(hight));
 }
 
 void display(void)
 {
-
+	//code
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glFlush();
@@ -311,13 +303,17 @@ void display(void)
 
 void uninitialize(void)
 {
+	//variable declarations
 	GLXContext currentGLXContext;
+
+	//code
 	currentGLXContext = glXGetCurrentContext();
 	if(currentGLXContext)
 	{
 		glXMakeCurrent(gpDisplay, 0, 0);
 		glXDestroyContext(gpDisplay, currentGLXContext);
 	}
+	
 	if(gWindow)
 	{
 		XDestroyWindow(gpDisplay, gWindow);
@@ -346,5 +342,5 @@ void uninitialize(void)
 		fclose(gpFile);
 		gpFile = NULL;
 	}
-
 }
+
