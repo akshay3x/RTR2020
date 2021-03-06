@@ -1,0 +1,5 @@
+DEBUG:Log File Created Successfully
+DEBUG:CreateWindow() Successful
+DEBUG:initialize() Successful
+DEBUG:Message/Game Loop Started
+DEBUG:Log File Closed Successfully
