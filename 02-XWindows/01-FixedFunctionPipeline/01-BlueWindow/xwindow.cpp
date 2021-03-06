@@ -9,9 +9,7 @@
 #include <X11/keysym.h>
 
 #include <GL/gl.h>		//for openGL apis
-#include <GL/glx.h> 	//for glx apis
-// /usr/include->gl folder
-
+#include <GL/glx.h> 		//for glx apis // /usr/include->gl folder
 
 //namespace
 using namespace std;
@@ -28,6 +26,7 @@ bool gbFullscreen = false;
 int giWindowWidth = 800;
 int giWindowHight = 600;
 
+//debug file
 FILE *gpFile = NULL;
 
 //entry point function
@@ -163,8 +162,7 @@ int main(void)
 	return(0);
 }
 
-
-void CreateWindow()
+void CreateWindow(void)
 {
 	//function declarations
 	void uninitialize(void);
@@ -241,15 +239,13 @@ void CreateWindow()
 		exit(1);
 	}
 
-	XStoreName(gpDisplay, gWindow, "Akshay Chandawale: First XWindow");
+	XStoreName(gpDisplay, gWindow, "XWindow Blue Window");
 
 	Atom windowManagerDelete = XInternAtom(gpDisplay, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(gpDisplay, gWindow, &windowManagerDelete, 1);
 
 	XMapWindow(gpDisplay, gWindow);
 }
-
-
 
 void ToggleFullscreen(void)
 {
@@ -296,7 +292,6 @@ void initialize(void)
 	resize(giWindowWidth, giWindowHight);
 }
 
-
 void resize(int width, int hight)
 {
 	//code
@@ -306,8 +301,7 @@ void resize(int width, int hight)
 	glViewport(0, 0, GLsizei(width), GLsizei(hight));
 }
 
-
-void display()
+void display(void)
 {
 
 	glClear(GL_COLOR_BUFFER_BIT);
