@@ -36,11 +36,10 @@ int main(void)
 	void ToggleFullscreen(void);
 	void uninitialize(void);
 
-	void initialize(void); 
+	void initialize(void);
 	void resize(int, int);
 	void display(void);	//render, draw
-	
-	
+
 	//variable declarations
 	int winWidth = giWindowWidth;
 	int winHight = giWindowHight;
@@ -58,24 +57,23 @@ int main(void)
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
+
 	CreateWindow();
 	fprintf(gpFile, "DEBUG:CreateWindow() Successful\n");
-	
+
 	initialize();
 	fprintf(gpFile, "DEBUG:initialize() Successful\n");
 
-	
 	//MessageLoop
 	XEvent event;
 	KeySym keysym;
 
 	fprintf(gpFile, "DEBUG:Message/Game Loop Started\n");
-	
+
 	while(bDone == false)
 	{
 		while(XPending(gpDisplay))
 		{
-
 			XNextEvent(gpDisplay, &event);
 
 			switch(event.type)
@@ -118,10 +116,10 @@ int main(void)
 
 					case 2:
 					break;
-				
+
 					case 3:
 					break;
-				
+
 					default:
 					break;
 					}
@@ -137,7 +135,6 @@ int main(void)
 				break;
 
 				case Expose:
-			
 				break;
 
 				case DestroyNotify:
@@ -150,12 +147,9 @@ int main(void)
 				default:
 				break;
 			}
-		
 		}
-		
 		display();
 	}
-
 	uninitialize();
 	return(0);
 }
@@ -164,7 +158,7 @@ void CreateWindow(void)
 {
 	//function declarations
 	void uninitialize(void);
-	
+
 	//variable declarations
 	XSetWindowAttributes winAttribs;
 	int defaultScreen;
@@ -176,8 +170,8 @@ void CreateWindow(void)
 						GLX_BLUE_SIZE,  1,
 						GLX_ALPHA_SIZE, 1,
 						None		// can write as digit 0 also
-						};	
-		
+						};
+
 	//code
 	gpDisplay = XOpenDisplay(NULL);
 	if(gpDisplay == NULL)
@@ -186,28 +180,28 @@ void CreateWindow(void)
 		uninitialize();
 		exit(1);
 	}
-	
+
 	defaultScreen = XDefaultScreen(gpDisplay);
-	
+
 	gpXVisualInfo = glXChooseVisual(gpDisplay, defaultScreen, frameBufferAttributes);
-	
+
 	if(gpXVisualInfo == NULL)
 	{
 		fprintf(gpFile, "ERROR:Unable to get a visual info.\nExiting now..\n");
 		uninitialize();
 		exit(1);
 	}
-	
+
 	winAttribs.border_pixel = 0;
 	winAttribs.background_pixmap = 0;
-	winAttribs.colormap = XCreateColormap(gpDisplay, 
-						RootWindow(gpDisplay, gpXVisualInfo->screen), 						
+	winAttribs.colormap = XCreateColormap(gpDisplay,
+						RootWindow(gpDisplay, gpXVisualInfo->screen),
 						gpXVisualInfo->visual, AllocNone);
 
 	gColormap = winAttribs.colormap;
 
 	winAttribs.background_pixel = BlackPixel(gpDisplay, defaultScreen);
-	
+
 	winAttribs.event_mask =ExposureMask |
 				VisibilityChangeMask |
 				ButtonPressMask |
@@ -229,7 +223,6 @@ void CreateWindow(void)
 							styleMask,
 							&winAttribs);
 
-
 	if(!gWindow)
 	{
 		fprintf(gpFile, "ERROR: Failed to create main window.\n Exiting...\n");
@@ -241,7 +234,7 @@ void CreateWindow(void)
 
 	Atom windowManagerDelete = XInternAtom(gpDisplay, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(gpDisplay, gWindow, &windowManagerDelete, 1);
-	
+
 	XMapWindow(gpDisplay, gWindow);
 }
 
@@ -263,7 +256,7 @@ void ToggleFullscreen(void)
 	xev.xclient.data.l[0] = gbFullscreen ? 0 : 1;
 
 	fullscreen = XInternAtom(gpDisplay, "_NET_WM_STATE_FULLSCREEN", False);
-	
+
 	xev.xclient.data.l[1] = fullscreen;
 
 	XSendEvent( gpDisplay,
@@ -271,21 +264,20 @@ void ToggleFullscreen(void)
 		    False,
 		    StructureNotifyMask,
 		    &xev);
-
 }
 
 void initialize(void)
 {
-
 	//function declarations
 	void resize(int, int);
-	
+
 	//code
 	gGLXContext = glXCreateContext(gpDisplay, gpXVisualInfo, NULL, GL_TRUE);
 	glXMakeCurrent(gpDisplay, gWindow, gGLXContext);
-	
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);	
-	
+
+	//Set background color to black
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
 	//warmup resize call
 	resize(giWindowWidth, giWindowHight);
 }
@@ -295,7 +287,6 @@ void resize(int width, int hight)
 	//code
 	if(hight <= 0)
 		hight = 1;
-
 
 	glViewport(0, 0, GLsizei(width), GLsizei(hight));
 
@@ -325,7 +316,6 @@ void resize(int width, int hight)
 
 void display(void)
 {
-	
 	//code
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -333,10 +323,10 @@ void display(void)
 	glLoadIdentity();
 
 	glBegin(GL_TRIANGLES);
-		
+
 		glColor3f(1.0f, 1.0f, 1.0f);
 		glVertex3f(0.0f, 50.0f, 0.0f);
-		
+
 		glVertex3f(-50.0f, -50.0f, 0.0f);
 
 		glVertex3f(50.0f, -50.0f, 0.0f);
@@ -348,13 +338,17 @@ void display(void)
 
 void uninitialize(void)
 {
+	//variable declarations
 	GLXContext currentGLXContext;
+
+	//code
 	currentGLXContext = glXGetCurrentContext();
 	if(currentGLXContext)
 	{
 		glXMakeCurrent(gpDisplay, 0, 0);
 		glXDestroyContext(gpDisplay, currentGLXContext);
-	}	
+	}
+	
 	if(gWindow)
 	{
 		XDestroyWindow(gpDisplay, gWindow);
