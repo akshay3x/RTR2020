@@ -27,6 +27,7 @@ bool gbFullscreen = false;
 int giWindowWidth = 800;
 int giWindowHight = 600;
 
+//debug file
 FILE *gpFile = NULL;
 
 GLfloat angle = 0.0f;
@@ -43,8 +44,6 @@ int main(void)
 	void resize(int, int);
 	void display(void);	//render, draw
 	void update (void);
-
-
 
 	//variable declarations
 	int winWidth = giWindowWidth;
@@ -63,6 +62,7 @@ int main(void)
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
+
 	CreateWindow();
 	fprintf(gpFile, "DEBUG:CreateWindow() Successful\n");
 
@@ -79,7 +79,6 @@ int main(void)
 	{
 		while(XPending(gpDisplay))
 		{
-
 			XNextEvent(gpDisplay, &event);
 
 			switch(event.type)
@@ -141,7 +140,6 @@ int main(void)
 				break;
 
 				case Expose:
-
 				break;
 
 				case DestroyNotify:
@@ -154,13 +152,10 @@ int main(void)
 				default:
 				break;
 			}
-
 		}
 		update();
 		display();
-		
 	}
-
 	uninitialize();
 	return(0);
 }
@@ -235,7 +230,6 @@ void CreateWindow(void)
 							styleMask,
 							&winAttribs);
 
-
 	if(!gWindow)
 	{
 		fprintf(gpFile, "ERROR: Failed to create main window.\n Exiting...\n");
@@ -277,12 +271,10 @@ void ToggleFullscreen(void)
 		    False,
 		    StructureNotifyMask,
 		    &xev);
-
 }
 
 void initialize(void)
 {
-
 	//function declarations
 	void resize(int, int);
 
@@ -327,7 +319,6 @@ void resize(int width, int hight)
 			(GLfloat)width/(GLfloat)hight,
 			0.1f,
 			100.0f);
-
 }
 
 void display(void)
@@ -369,23 +360,26 @@ void display(void)
 
 void update(void)
 {
+	//code
 	angle = angle + 4.0f;
 
 	if(angle >= 360.0f)
 		angle = 0.0f;
-
 }
 
 void uninitialize(void)
 {
+	//variable declarations
 	GLXContext currentGLXContext;
-	currentGLXContext = glXGetCurrentContext();
 
+	//code
+	currentGLXContext = glXGetCurrentContext();
 	if(currentGLXContext)
 	{
 		glXMakeCurrent(gpDisplay, 0, 0);
 		glXDestroyContext(gpDisplay, currentGLXContext);
 	}
+	
 	if(gWindow)
 	{
 		XDestroyWindow(gpDisplay, gWindow);
