@@ -27,6 +27,7 @@ bool gbFullscreen = false;
 int giWindowWidth = 800;
 int giWindowHight = 600;
 
+//debug file
 FILE *gpFile = NULL;
 GLfloat angle = 0.0f;
 
@@ -42,8 +43,6 @@ int main(void)
 	void resize(int, int);
 	void display(void);	//render, draw
 	void update (void);
-
-
 
 	//variable declarations
 	int winWidth = giWindowWidth;
@@ -62,6 +61,7 @@ int main(void)
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
+
 	CreateWindow();
 	fprintf(gpFile, "DEBUG:CreateWindow() Successful\n");
 
@@ -78,7 +78,6 @@ int main(void)
 	{
 		while(XPending(gpDisplay))
 		{
-
 			XNextEvent(gpDisplay, &event);
 
 			switch(event.type)
@@ -140,7 +139,6 @@ int main(void)
 				break;
 
 				case Expose:
-
 				break;
 
 				case DestroyNotify:
@@ -153,12 +151,10 @@ int main(void)
 				default:
 				break;
 			}
-
 		}
 		update();
 		display();
 	}
-
 	uninitialize();
 	return(0);
 }
@@ -233,7 +229,6 @@ void CreateWindow(void)
 							styleMask,
 							&winAttribs);
 
-
 	if(!gWindow)
 	{
 		fprintf(gpFile, "ERROR: Failed to create main window.\n Exiting...\n");
@@ -275,12 +270,10 @@ void ToggleFullscreen(void)
 		    False,
 		    StructureNotifyMask,
 		    &xev);
-
 }
 
 void initialize(void)
 {
-
 	//function declarations
 	void resize(int, int);
 
@@ -288,12 +281,23 @@ void initialize(void)
 	gGLXContext = glXCreateContext(gpDisplay, gpXVisualInfo, NULL, GL_TRUE);
 	glXMakeCurrent(gpDisplay, gWindow, gGLXContext);
 
+	//Set background color to black
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClearDepth(1.0f);                   // Set background depth to farthest
-	glEnable(GL_DEPTH_TEST);   // Enable depth testing for z-culling
-	glDepthFunc(GL_LEQUAL);    // Set the type of depth-test
-	glShadeModel(GL_SMOOTH);   // Enable smooth shading
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);  // Nice perspective corrections
+
+	//Set background depth to farthest
+	glClearDepth(1.0f);
+
+	//Enable depth testing for z-culling
+	glEnable(GL_DEPTH_TEST);
+
+	//Set the type of depth-test
+	glDepthFunc(GL_LEQUAL);
+
+	//Enable smooth shading
+	glShadeModel(GL_SMOOTH);
+
+	//Nice perspective corrections
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 	//warmup resize call
 	resize(giWindowWidth, giWindowHight);
@@ -302,7 +306,6 @@ void initialize(void)
 void resize(int width, int hight)
 {
 	//code
-//code
 	if(hight <= 0)
 		hight = 1;
 
@@ -315,12 +318,11 @@ void resize(int width, int hight)
 			(GLfloat)width/(GLfloat)hight,
 			0.1f,
 			100.0f);
-
 }
 
 void display(void)
 {
-
+	//function declarations
 	void drawPyramid(void);
 	void drawCube(void);
 
@@ -344,10 +346,6 @@ void display(void)
 
 	drawCube();
 
-
-
-
-
 	glXSwapBuffers(gpDisplay, gWindow);
 }
 
@@ -362,7 +360,6 @@ void drawPyramid(void)
 		glVertex3f(-1.0f, -1.0f, 1.0f);
 		glColor3f(0.0f, 0.0f, 1.0f);		// Blue
 		glVertex3f(1.0f, -1.0f, 1.0f);
-
 		// Right
 		glColor3f(1.0f, 0.0f, 0.0f);		// Red
 		glVertex3f(0.0f, 1.0f, 0.0f);
@@ -370,7 +367,6 @@ void drawPyramid(void)
 		glVertex3f(1.0f, -1.0f, 1.0f);
 		glColor3f(0.0f, 1.0f, 0.0f);		// Green
 		glVertex3f(1.0f, -1.0f, -1.0f);
-
 		// Back
 		glColor3f(1.0f, 0.0f, 0.0f);		// Red
 		glVertex3f(0.0f, 1.0f, 0.0f);
@@ -378,7 +374,6 @@ void drawPyramid(void)
 		glVertex3f(1.0f, -1.0f, -1.0f);
 		glColor3f(0.0f, 0.0f, 1.0f);		// Blue
 		glVertex3f(-1.0f, -1.0f, -1.0f);
-
 		// Left
 		glColor3f(1.0f,0.0f,0.0f);			// Red
 		glVertex3f( 0.0f, 1.0f, 0.0f);
@@ -387,11 +382,11 @@ void drawPyramid(void)
 		glColor3f(0.0f,1.0f,0.0f);			// Green
 		glVertex3f(-1.0f,-1.0f, 1.0f);
 	glEnd();
-	
 }
 
 void drawCube(void)
 {
+	//code	
 	glBegin(GL_QUADS);
 		// Top face (y = 1.0f)
 		glColor3f(1.0f, 0.0f, 0.0f);	// Red
@@ -399,35 +394,30 @@ void drawCube(void)
 		glVertex3f(-1.0f, 1.0f, -1.0f);
 		glVertex3f(-1.0f, 1.0f,  1.0f);
 		glVertex3f( 1.0f, 1.0f,  1.0f);
-
 		// Bottom face (y = -1.0f)
 		glColor3f(0.0f, 1.0f, 0.0f);	// Green
 		glVertex3f( 1.0f, -1.0f,  1.0f);
 		glVertex3f(-1.0f, -1.0f,  1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		glVertex3f( 1.0f, -1.0f, -1.0f);
-
 		// Front face  (z = 1.0f)
 		glColor3f(0.0f, 0.0f, 1.0f);	// Blue
 		glVertex3f( 1.0f,  1.0f, 1.0f);
 		glVertex3f(-1.0f,  1.0f, 1.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);
 		glVertex3f( 1.0f, -1.0f, 1.0f);
-
 		// Back face (z = -1.0f)
 		glColor3f(1.0f, 1.0f, 0.0f);	// Yellow
 		glVertex3f( 1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f,  1.0f, -1.0f);
 		glVertex3f( 1.0f,  1.0f, -1.0f);
-
 		// Left face (x = -1.0f)
 		glColor3f(0.0f, 1.0f, 1.0f);
 		glVertex3f(-1.0f,  1.0f,  1.0f);
 		glVertex3f(-1.0f,  1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);
 		glVertex3f(-1.0f, -1.0f,  1.0f);
-
 		// Right face (x = 1.0f)
 		glColor3f(1.0f, 0.0f, 1.0f);
 		glVertex3f(1.0f,  1.0f, -1.0f);
@@ -435,29 +425,30 @@ void drawCube(void)
 		glVertex3f(1.0f, -1.0f,  1.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);
 	glEnd();
-
-
 }
 
 void update(void)
 {
+	//code
 	angle = angle + 1.0f;
 
 	if(angle >= 360.0f)
 		angle = 0.0f;
-
 }
 
 void uninitialize(void)
 {
+	//variable declarations
 	GLXContext currentGLXContext;
-	currentGLXContext = glXGetCurrentContext();
 
+	//code
+	currentGLXContext = glXGetCurrentContext();
 	if(currentGLXContext)
 	{
 		glXMakeCurrent(gpDisplay, 0, 0);
 		glXDestroyContext(gpDisplay, currentGLXContext);
 	}
+	
 	if(gWindow)
 	{
 		XDestroyWindow(gpDisplay, gWindow);
