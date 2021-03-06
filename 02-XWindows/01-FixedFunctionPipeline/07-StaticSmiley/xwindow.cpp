@@ -29,6 +29,7 @@ bool gbFullscreen = false;
 int giWindowWidth = 800;
 int giWindowHight = 600;
 
+//debug file
 FILE *gpFile = NULL;
 GLfloat angle = 0.0f;
 
@@ -47,8 +48,6 @@ int main(void)
 	void display(void);	//render, draw
 	void update (void);
 
-
-
 	//variable declarations
 	int winWidth = giWindowWidth;
 	int winHight = giWindowHight;
@@ -66,6 +65,7 @@ int main(void)
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
+
 	CreateWindow();
 	fprintf(gpFile, "DEBUG:CreateWindow() Successful\n");
 
@@ -82,7 +82,6 @@ int main(void)
 	{
 		while(XPending(gpDisplay))
 		{
-
 			XNextEvent(gpDisplay, &event);
 
 			switch(event.type)
@@ -144,7 +143,6 @@ int main(void)
 				break;
 
 				case Expose:
-
 				break;
 
 				case DestroyNotify:
@@ -157,12 +155,10 @@ int main(void)
 				default:
 				break;
 			}
-
 		}
-		update();
+		//update();
 		display();
 	}
-
 	uninitialize();
 	return(0);
 }
@@ -237,7 +233,6 @@ void CreateWindow(void)
 							styleMask,
 							&winAttribs);
 
-
 	if(!gWindow)
 	{
 		fprintf(gpFile, "ERROR: Failed to create main window.\n Exiting...\n");
@@ -279,12 +274,10 @@ void ToggleFullscreen(void)
 		    False,
 		    StructureNotifyMask,
 		    &xev);
-
 }
 
 void initialize(void)
 {
-
 	//function declarations
 	void resize(int, int);
 	int LoadBitmapTexture(const char *);
@@ -329,12 +322,11 @@ int LoadBitmapTexture(const char *imgName)
 	int width, hight;
 	unsigned char *imgData = NULL;
 	unsigned int textureID = 0;
-	
+
 	//code
 	imgData = SOIL_load_image(imgName, &width, &hight, 0, SOIL_LOAD_RGB);
 	if(imgData != NULL)
 	{
-		
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		glGenTextures(1, &textureID);
 		glBindTexture(GL_TEXTURE_2D, textureID);
@@ -343,7 +335,7 @@ int LoadBitmapTexture(const char *imgName)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, hight, GL_RGB, GL_UNSIGNED_BYTE, imgData);
-		
+
 		SOIL_free_image_data(imgData);
 	}
 	return textureID;
@@ -364,7 +356,6 @@ void resize(int width, int hight)
 			(GLfloat)width/(GLfloat)hight,
 			0.1f,
 			100.0f);
-
 }
 
 void display(void)
@@ -383,48 +374,45 @@ void display(void)
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBindTexture(GL_TEXTURE_2D, SmileyTexture);
 
-
 		glBegin(GL_QUADS);
 			glTexCoord2f( 1.0f, 0.0f);
 			glVertex3f(  -1.0f, 1.0f, 0.0f);
-			
+
 			glTexCoord2f( 1.0f,  1.0f);
 			glVertex3f(  -1.0f, -1.0f, 0.0f);
-			
+
 			glTexCoord2f( 0.0f,  1.0f);
 			glVertex3f(   1.0f, -1.0f, 0.0f);
-			
+
 			glTexCoord2f( 0.0f, 0.0f);
 			glVertex3f(   1.0f, 1.0f, 0.0f);
 		glEnd();
-
-
-
-
-
 
 	glXSwapBuffers(gpDisplay, gWindow);
 }
 
 void update(void)
 {
+	//code
 	angle = angle + 1.0f;
 
 	if(angle >= 360.0f)
 		angle = 0.0f;
-
 }
 
 void uninitialize(void)
 {
+	//variable declarations
 	GLXContext currentGLXContext;
-	currentGLXContext = glXGetCurrentContext();
 
+	//code
+	currentGLXContext = glXGetCurrentContext();
 	if(currentGLXContext)
 	{
 		glXMakeCurrent(gpDisplay, 0, 0);
 		glXDestroyContext(gpDisplay, currentGLXContext);
 	}
+	
 	if(gWindow)
 	{
 		XDestroyWindow(gpDisplay, gWindow);
