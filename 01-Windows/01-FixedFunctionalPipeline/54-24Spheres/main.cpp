@@ -36,7 +36,6 @@ GLfloat lightAmbientZero[]  = {0.0f, 0.0f, 0.0f, 1.0f};
 GLfloat lightDiffuseZero[]  = {1.0f, 1.0f, 1.0f, 1.0f};//white
 GLfloat lightPositionZero[] = {0.0f, 3.0f, 3.0f, 0.0f};//Directional light
 
-
 GLfloat glLight_model_Ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
 GLfloat glLight_model_local_viewer[] = {0.0f};
 
@@ -80,7 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
-	
+
 	//initializing winndow class
 	wndclass.cbSize = sizeof(WNDCLASSEX);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -94,7 +93,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	wndclass.hIconSm = LoadIcon(hInstance , MAKEINTRESOURCE(MYICON));
 	wndclass.lpszClassName = szAppName;
 	wndclass.lpszMenuName = NULL;
-
 
 	//Registering above class
 	RegisterClassEx(&wndclass);
@@ -152,7 +150,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 			}
 		}
 	}
-
 	return((int)msg.wParam);
 }
 
@@ -245,7 +242,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			PostQuitMessage(0);
 			break;
 	}
-
 	return(DefWindowProc(hwnd, iMsg, wParam, lParam));
 }
 
@@ -316,7 +312,6 @@ void initialize(void)
 	pfd.cGreenBits = 8;
 	pfd.cBlueBits = 8;
 	pfd.cAlphaBits = 8;
-
 	pfd.cDepthBits = 32;
 
 	iPixelFormatIndex = ChoosePixelFormat(ghdc, &pfd);
@@ -332,9 +327,8 @@ void initialize(void)
 		fprintf(gpFile, "DEBUG:SetPixelFormat() Failed\n");
 		DestroyWindow(ghwnd);
 	}
-	
-	ghrc = wglCreateContext(ghdc);
 
+	ghrc = wglCreateContext(ghdc);
 	if(ghrc == NULL)
 	{
 		fprintf(gpFile, "DEBUG:wglCreateContext() Failed\n");
@@ -366,7 +360,6 @@ void initialize(void)
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, glLight_model_Ambient);
 	glLightModelfv(GL_LIGHT_MODEL_LOCAL_VIEWER, glLight_model_local_viewer);
 
-
 	glLightfv(GL_LIGHT0, GL_AMBIENT,  lightAmbientZero);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE,  lightDiffuseZero);
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPositionZero);
@@ -381,11 +374,9 @@ void initialize(void)
 
 	glClearColor(0.25f, 0.25f, 0.25f, 1.0f); //Dark Grey
 
-
 	//WarmUp resize() Call
 	resize(WIN_WIDTH, WIN_HIGHT);
 }
-
 
 void resize(int width, int hight)
 {
@@ -421,9 +412,8 @@ void resize(int width, int hight)
 
 void display(void)
 {
-	//Function Declarations
+	//function declarations
 	void draw24Sphere(void);
-
 
 	//code
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -458,18 +448,12 @@ void display(void)
 
 void draw24Sphere(void)
 {
-	//Variable declaration
 	GLfloat materialAmbient[4];
 	GLfloat materialDiffuse[4];
 	GLfloat materialSpecular[4];
 	GLfloat materialShininess;
 
-
-	//code
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-//1-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
 //-----------------------------------------------------------
 	materialAmbient[0] = materialAmbient01[0];
 	materialAmbient[1] = materialAmbient01[1];
@@ -495,12 +479,11 @@ void draw24Sphere(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslatef(1.5f, 14.0f, 0.0f);
+	glTranslatef(3.5f, 12.0f, 0.0f);
 
 	quadric[0] = gluNewQuadric(); 
 	gluSphere(quadric[0], 1.0, 30, 30);
 
-//2-----------------------------------------------------------
 	materialAmbient[0] = materialAmbient02[0];
 	materialAmbient[1] = materialAmbient02[1];
 	materialAmbient[2] = materialAmbient02[2];
@@ -526,7 +509,7 @@ void draw24Sphere(void)
 
 	quadric[1] = gluNewQuadric(); 
 	gluSphere(quadric[1], 1.0, 30, 30);
-//3-----------------------------------------------------------
+
 	materialAmbient[0] = materialAmbient03[0];
 	materialAmbient[1] = materialAmbient03[1];
 	materialAmbient[2] = materialAmbient03[2];
@@ -552,7 +535,7 @@ void draw24Sphere(void)
 
 	quadric[2] = gluNewQuadric(); 
 	gluSphere(quadric[2], 1.0, 30, 30);
-//4-----------------------------------------------------------
+
 	materialAmbient[0] = materialAmbient04[0];
 	materialAmbient[1] = materialAmbient04[1];
 	materialAmbient[2] = materialAmbient04[2];
@@ -578,7 +561,8 @@ void draw24Sphere(void)
 
 	quadric[3] = gluNewQuadric(); 
 	gluSphere(quadric[3], 1.0, 30, 30);
-//5-----------------------------------------------------------
+
+//-------------------------------------------------------------------------
 	materialAmbient[0] = materialAmbient05[0];
 	materialAmbient[1] = materialAmbient05[1];
 	materialAmbient[2] = materialAmbient05[2];
@@ -600,11 +584,14 @@ void draw24Sphere(void)
 	materialShininess = materialShininess05;
 	glMaterialf(GL_FRONT,  GL_SHININESS, materialShininess);
 
-	glTranslatef(0.0f, -2.5f, 0.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//6-----------------------------------------------------------
+	glTranslatef(6.5f, 12.0f, 0.0f);
+
+	quadric[4] = gluNewQuadric(); 
+	gluSphere(quadric[4], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient06[0];
 	materialAmbient[1] = materialAmbient06[1];
 	materialAmbient[2] = materialAmbient06[2];
@@ -628,12 +615,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//1-----------------------------------------------------------
+	quadric[5] = gluNewQuadric(); 
+	gluSphere(quadric[5], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient07[0];
 	materialAmbient[1] = materialAmbient07[1];
 	materialAmbient[2] = materialAmbient07[2];
@@ -655,14 +639,11 @@ void draw24Sphere(void)
 	materialShininess = materialShininess07;
 	glMaterialf(GL_FRONT,  GL_SHININESS, materialShininess);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	glTranslatef(4.5f, 14.0f, 0.0f);
+	quadric[6] = gluNewQuadric(); 
+	gluSphere(quadric[6], 1.0, 30, 30);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//2-----------------------------------------------------------
 	materialAmbient[0] = materialAmbient08[0];
 	materialAmbient[1] = materialAmbient08[1];
 	materialAmbient[2] = materialAmbient08[2];
@@ -686,9 +667,10 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[1] = gluNewQuadric(); 
-	gluSphere(quadric[1], 1.0, 30, 30);
-//3-----------------------------------------------------------
+	quadric[7] = gluNewQuadric(); 
+	gluSphere(quadric[7], 1.0, 30, 30);
+
+//-------------------------------------------------------------------------
 	materialAmbient[0] = materialAmbient09[0];
 	materialAmbient[1] = materialAmbient09[1];
 	materialAmbient[2] = materialAmbient09[2];
@@ -710,11 +692,15 @@ void draw24Sphere(void)
 	materialShininess = materialShininess09;
 	glMaterialf(GL_FRONT,  GL_SHININESS, materialShininess);
 
-	glTranslatef(0.0f, -2.5f, 0.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-	quadric[2] = gluNewQuadric(); 
-	gluSphere(quadric[2], 1.0, 30, 30);
-//4-----------------------------------------------------------
+	//glTranslatef(0.0f, -2.5f, 0.0f);
+	glTranslatef(9.5f, 12.0f, 0.0f);
+
+	quadric[8] = gluNewQuadric(); 
+	gluSphere(quadric[8], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient10[0];
 	materialAmbient[1] = materialAmbient10[1];
 	materialAmbient[2] = materialAmbient10[2];
@@ -738,9 +724,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[3] = gluNewQuadric(); 
-	gluSphere(quadric[3], 1.0, 30, 30);
-//5-----------------------------------------------------------
+	quadric[9] = gluNewQuadric(); 
+	gluSphere(quadric[9], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient11[0];
 	materialAmbient[1] = materialAmbient11[1];
 	materialAmbient[2] = materialAmbient11[2];
@@ -764,9 +750,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//6-----------------------------------------------------------
+	quadric[10] = gluNewQuadric(); 
+	gluSphere(quadric[10], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient12[0];
 	materialAmbient[1] = materialAmbient12[1];
 	materialAmbient[2] = materialAmbient12[2];
@@ -790,12 +776,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
+	quadric[11] = gluNewQuadric(); 
+	gluSphere(quadric[11], 1.0, 30, 30);
 //-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//1-----------------------------------------------------------
 	materialAmbient[0] = materialAmbient13[0];
 	materialAmbient[1] = materialAmbient13[1];
 	materialAmbient[2] = materialAmbient13[2];
@@ -820,11 +803,11 @@ void draw24Sphere(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslatef(7.5f, 14.0f, 0.0f);
+	glTranslatef(12.5f, 12.0f, 0.0f);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//2-----------------------------------------------------------
+	quadric[12] = gluNewQuadric(); 
+	gluSphere(quadric[12], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient14[0];
 	materialAmbient[1] = materialAmbient14[1];
 	materialAmbient[2] = materialAmbient14[2];
@@ -848,10 +831,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[1] = gluNewQuadric(); 
-	gluSphere(quadric[1], 1.0, 30, 30);
+	quadric[13] = gluNewQuadric(); 
+	gluSphere(quadric[13], 1.0, 30, 30);
 
-//3-----------------------------------------------------------
 	materialAmbient[0] = materialAmbient15[0];
 	materialAmbient[1] = materialAmbient15[1];
 	materialAmbient[2] = materialAmbient15[2];
@@ -875,9 +857,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[2] = gluNewQuadric(); 
-	gluSphere(quadric[2], 1.0, 30, 30);
-//4-----------------------------------------------------------
+	quadric[14] = gluNewQuadric(); 
+	gluSphere(quadric[14], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient16[0];
 	materialAmbient[1] = materialAmbient16[1];
 	materialAmbient[2] = materialAmbient16[2];
@@ -901,9 +883,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[3] = gluNewQuadric(); 
-	gluSphere(quadric[3], 1.0, 30, 30);
-//5-----------------------------------------------------------
+	quadric[15] = gluNewQuadric(); 
+	gluSphere(quadric[15], 1.0, 30, 30);
+//-------------------------------------------------------------------------
 	materialAmbient[0] = materialAmbient17[0];
 	materialAmbient[1] = materialAmbient17[1];
 	materialAmbient[2] = materialAmbient17[2];
@@ -925,11 +907,14 @@ void draw24Sphere(void)
 	materialShininess = materialShininess17;
 	glMaterialf(GL_FRONT,  GL_SHININESS, materialShininess);
 
-	glTranslatef(0.0f, -2.5f, 0.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//6-----------------------------------------------------------
+	glTranslatef(15.5f, 12.0f, 0.0f);
+
+	quadric[16] = gluNewQuadric(); 
+	gluSphere(quadric[16], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient18[0];
 	materialAmbient[1] = materialAmbient18[1];
 	materialAmbient[2] = materialAmbient18[2];
@@ -953,12 +938,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//1-----------------------------------------------------------
+	quadric[17] = gluNewQuadric(); 
+	gluSphere(quadric[17], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient19[0];
 	materialAmbient[1] = materialAmbient19[1];
 	materialAmbient[2] = materialAmbient19[2];
@@ -980,15 +962,11 @@ void draw24Sphere(void)
 	materialShininess = materialShininess19;
 	glMaterialf(GL_FRONT,  GL_SHININESS, materialShininess);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	glTranslatef(10.5f, 14.0f, 0.0f);
+	quadric[18] = gluNewQuadric(); 
+	gluSphere(quadric[18], 1.0, 30, 30);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-
-//2-----------------------------------------------------------
 	materialAmbient[0] = materialAmbient20[0];
 	materialAmbient[1] = materialAmbient20[1];
 	materialAmbient[2] = materialAmbient20[2];
@@ -1012,9 +990,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[1] = gluNewQuadric(); 
+	quadric[19] = gluNewQuadric(); 
 	gluSphere(quadric[1], 1.0, 30, 30);
-//3-----------------------------------------------------------
+//-------------------------------------------------------------------------
 	materialAmbient[0] = materialAmbient21[0];
 	materialAmbient[1] = materialAmbient21[1];
 	materialAmbient[2] = materialAmbient21[2];
@@ -1036,11 +1014,14 @@ void draw24Sphere(void)
 	materialShininess = materialShininess21;
 	glMaterialf(GL_FRONT,  GL_SHININESS, materialShininess);
 
-	glTranslatef(0.0f, -2.5f, 0.0f);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-	quadric[2] = gluNewQuadric(); 
-	gluSphere(quadric[2], 1.0, 30, 30);
-//4-----------------------------------------------------------
+	glTranslatef(18.5f, 12.0f, 0.0f);
+
+	quadric[20] = gluNewQuadric(); 
+	gluSphere(quadric[20], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient22[0];
 	materialAmbient[1] = materialAmbient22[1];
 	materialAmbient[2] = materialAmbient22[2];
@@ -1064,9 +1045,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[3] = gluNewQuadric(); 
-	gluSphere(quadric[3], 1.0, 30, 30);
-//5-----------------------------------------------------------
+	quadric[21] = gluNewQuadric(); 
+	gluSphere(quadric[21], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient23[0];
 	materialAmbient[1] = materialAmbient23[1];
 	materialAmbient[2] = materialAmbient23[2];
@@ -1090,9 +1071,9 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//6-----------------------------------------------------------
+	quadric[22] = gluNewQuadric(); 
+	gluSphere(quadric[22], 1.0, 30, 30);
+
 	materialAmbient[0] = materialAmbient24[0];
 	materialAmbient[1] = materialAmbient24[1];
 	materialAmbient[2] = materialAmbient24[2];
@@ -1116,25 +1097,22 @@ void draw24Sphere(void)
 
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
-	quadric[0] = gluNewQuadric(); 
-	gluSphere(quadric[0], 1.0, 30, 30);
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
+	quadric[23] = gluNewQuadric(); 
+	gluSphere(quadric[23], 1.0, 30, 30);
+
 }
 
 void update(void)
 {
 	//code
 	if(keyPressed == 1)
-	AngleForXRotation = AngleForXRotation + 5.0f;
+		AngleForXRotation = AngleForXRotation + 5.0f;
 
 	else if(keyPressed == 2)
-	AngleForYRotation = AngleForYRotation + 5.0f;
+		AngleForYRotation = AngleForYRotation + 5.0f;
 
 	else if(keyPressed == 3)
 	AngleForZRotation = AngleForZRotation + 5.0f;
-
 }
 
 void uninitialize(void)
