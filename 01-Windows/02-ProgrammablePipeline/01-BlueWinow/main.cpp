@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
-	
+
 	//initializing winndow class
 	wndclass.cbSize = sizeof(WNDCLASSEX);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -74,7 +74,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	wndclass.lpfnWndProc = WndProc;
 	wndclass.lpszClassName = szAppName;
 	wndclass.lpszMenuName = NULL;
-
 
 	//Registering above class
 	RegisterClassEx(&wndclass);
@@ -267,7 +266,6 @@ void initialize(void)
 	pfd.cGreenBits = 8;
 	pfd.cBlueBits = 8;
 	pfd.cAlphaBits = 8;
-
 	pfd.cDepthBits = 32;
 
 	ghdc = GetDC(ghwnd);
@@ -284,7 +282,7 @@ void initialize(void)
 		fprintf(gpFile, "DEBUG:SetPixelFormat() Failed\n");
 		DestroyWindow(ghwnd);
 	}
-	
+
 	ghrc = wglCreateContext(ghdc);
 	if(ghrc == NULL)
 	{
@@ -384,3 +382,4 @@ void uninitialize(void)
 		gpFile = NULL;
 	}
 }
+
