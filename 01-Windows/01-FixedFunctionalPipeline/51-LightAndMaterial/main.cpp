@@ -28,7 +28,6 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
-GLfloat angle = 0.0f;
 bool gbLight = false;
 GLUquadric *quadric = NULL;
 
@@ -356,7 +355,6 @@ void initialize(void)
 	resize(WIN_WIDTH, WIN_HIGHT);
 }
 
-
 void resize(int width, int hight)
 {
 	//code
@@ -377,7 +375,6 @@ void resize(int width, int hight)
 
 void display(void)
 {
-
 	//code
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -385,7 +382,6 @@ void display(void)
 	glLoadIdentity();
 
 	glTranslatef( 0.0f, 0.0f , -0.55f);
-	glRotatef(angle, 0.0f, 1.0f, 0.0f);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	quadric = gluNewQuadric(); 
@@ -398,11 +394,6 @@ void display(void)
 void update(void)
 {
 	//code
-	angle = angle + 0.5f;
-
-	if(angle >= 360.0f)
-		angle = 0.0f;
-
 }
 
 void uninitialize(void)
