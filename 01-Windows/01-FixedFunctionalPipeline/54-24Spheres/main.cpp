@@ -695,7 +695,6 @@ void draw24Sphere(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	//glTranslatef(0.0f, -2.5f, 0.0f);
 	glTranslatef(9.5f, 12.0f, 0.0f);
 
 	quadric[8] = gluNewQuadric(); 
@@ -991,7 +990,7 @@ void draw24Sphere(void)
 	glTranslatef(0.0f, -2.5f, 0.0f);
 
 	quadric[19] = gluNewQuadric(); 
-	gluSphere(quadric[1], 1.0, 30, 30);
+	gluSphere(quadric[19], 1.0, 30, 30);
 //-------------------------------------------------------------------------
 	materialAmbient[0] = materialAmbient21[0];
 	materialAmbient[1] = materialAmbient21[1];
