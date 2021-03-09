@@ -62,6 +62,8 @@ int main(void)
 
 	XWindowAttributes window_attributes_return;
 
+	char keys[26];
+
 	//code
 	gpFile = fopen("./DEBUG_LOG.TXT", "w");
 	if( gpFile == NULL)
@@ -103,6 +105,7 @@ int main(void)
 
 				gHight = window_attributes_return.height;
 				gWidth = window_attributes_return.width;
+				XLookupString(&event.xkey, keys, sizeof(keys), NULL, NULL);
 				switch(keysym)
 				{
 					case XK_Escape:
@@ -123,9 +126,13 @@ int main(void)
 					}
 					break;
 
-					case XK_0:
-					case XK_KP_0:
+					default:
+					break;
+				}
 
+				switch(keys[0])
+				{
+					case '0':
 						gVx = 0;
 						gVy = 0;
 						gVwidth = gWidth;
@@ -133,7 +140,6 @@ int main(void)
 						break;
 
 					case XK_1:
-					case XK_KP_1:
 						gVx = 0;
 						gVy = GLsizei(gHight)/2.0f;
 						gVwidth = GLsizei(gWidth)/2.0f;
@@ -141,7 +147,6 @@ int main(void)
 						break;
 
 					case XK_2:
-					case XK_KP_2:
 						gVx = GLsizei(gWidth)/2.0f;
 						gVy = GLsizei(gHight)/2.0f;
 						gVwidth = GLsizei(gWidth)/2.0f;
@@ -149,7 +154,6 @@ int main(void)
 						break;
 
 					case XK_3:
-					case XK_KP_3:
 						gVx = GLsizei(gWidth)/2.0f;
 						gVy = 0;
 						gVwidth = GLsizei(gWidth)/2.0f;
@@ -157,7 +161,6 @@ int main(void)
 						break;
 
 					case XK_4:
-					case XK_KP_4:
 						gVx = 0;
 						gVy = 0;
 						gVwidth = GLsizei(gWidth)/2.0f;
@@ -165,7 +168,6 @@ int main(void)
 						break;
 
 					case XK_5:
-					case XK_KP_5:
 						gVx = 0;
 						gVy = 0;
 						gVwidth = GLsizei(gWidth)/2.0f;
@@ -173,7 +175,6 @@ int main(void)
 						break;
 
 					case XK_6:
-					case XK_KP_6:
 						gVx = GLsizei(gWidth)/2.0f;
 						gVy = 0;
 						gVwidth = GLsizei(gWidth)/2.0f;
@@ -181,7 +182,6 @@ int main(void)
 						break;
 
 					case XK_7:
-					case XK_KP_7:
 						gVx = 0;
 						gVy = GLsizei(gHight)/2.0f;
 						gVwidth = GLsizei(gWidth);
@@ -189,7 +189,6 @@ int main(void)
 						break;
 
 					case XK_8:
-					case XK_KP_8:
 						gVx = 0;
 						gVy = 0;
 						gVwidth = GLsizei(gWidth);
@@ -197,7 +196,6 @@ int main(void)
 						break;
 
 					case XK_9:
-					case XK_KP_9:
 						gVx = GLsizei(gWidth)/4.0f;
 						gVy = GLsizei(gHight)/4.0f;
 						gVwidth = GLsizei(gWidth)/2.0f;
