@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <GL/GL.h>
 #include <GL/GLU.h>
+#include <math.h>
 
 #include "resource.h"
 
@@ -12,6 +13,7 @@
 //macro definitions
 #define WIN_WIDTH 800
 #define WIN_HIGHT 600
+#define GL_PI 3.1415f
 
 //window procedure
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -28,31 +30,13 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
-bool gbLight = false;
-GLUquadric *quadric = NULL;
-
-//LightSource
-GLfloat lightAmbient[]  = {   0.0f,   0.0f,   0.0f, 1.0f };
-GLfloat lightDiffuse[]  = {   1.0f,   1.0f,   1.0f, 1.0f };//white
-GLfloat lightSpecular[] = {   1.0f,   1.0f,   1.0f, 1.0f };//white
-GLfloat lightPosition[] = { 100.0f, 100.0f, 100.0f, 1.0f };//light position
-
-//MaterialProperties
-GLfloat materialAmbient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
-GLfloat materialDiffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat materialSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat materialShininess  =  50.0f;
-
-
 //WinMain()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
-	
 	//function declations
 	void initialize(void);
 	void display(void);
 	void uninitialize(void);
-	void update (void);
 
 	//variable declarations
 	WNDCLASSEX wndclass;
@@ -144,7 +128,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 				//HERE YOU SHOULD CALL UPDATE FUNCTION FOR OPENGL RENDERING
 				//HERE YOU SHOULD CALL DISPLAY FUNCTION FOR OPENGL RENDERING
 				display();
-				update();
 			}
 		}
 	}
@@ -192,20 +175,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 				case VK_ESCAPE:
 					DestroyWindow(hwnd);
-					break;
-
-				case 'L':
-				case 'l':
-					if(gbLight == false)
-					{
-						glEnable(GL_LIGHTING);
-						gbLight = true; 
-					}
-					else
-					{
-						glDisable(GL_LIGHTING);
-						gbLight = false;
-					}
 					break;
 
 				default:
@@ -275,7 +244,6 @@ void initialize(void)
 {
 	//function declarations
 	void resize(int, int);
-	bool LoadGLTexture(GLuint *texture, TCHAR resourceID[]);
 
 	//variable declarations
 	PIXELFORMATDESCRIPTOR pfd = {sizeof(PIXELFORMATDESCRIPTOR)};
@@ -294,8 +262,7 @@ void initialize(void)
 	pfd.cGreenBits = 8;
 	pfd.cBlueBits = 8;
 	pfd.cAlphaBits = 8;
-
-	pfd.cDepthBits = 32;
+	//pfd.cDepthBits = 8;
 
 	iPixelFormatIndex = ChoosePixelFormat(ghdc, &pfd);
 
@@ -325,31 +292,7 @@ void initialize(void)
 		DestroyWindow(ghwnd);
 	}
 
-	//Set background color to black
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	//Set background depth to farthest
-	glClearDepth(1.0f);
-	//Enable depth testing for z-culling
-	glEnable(GL_DEPTH_TEST);
-	//Set the type of depth-test
-	glDepthFunc(GL_LEQUAL);
-	//Enable smooth shading
-	glShadeModel(GL_SMOOTH);
-	//Nice perspective corrections
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-
-	glLightfv(GL_LIGHT1, GL_AMBIENT,  lightAmbient);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE,  lightDiffuse);
-	glLightfv(GL_LIGHT1, GL_SPECULAR, lightSpecular);
-	glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
-	glEnable(GL_LIGHT1);
-
-	glMaterialfv(GL_FRONT,  GL_AMBIENT,   materialAmbient);
-	glMaterialfv(GL_FRONT,  GL_DIFFUSE,   materialDiffuse);
-	glMaterialfv(GL_FRONT,  GL_SPECULAR,  materialSpecular);
-	glMaterialf(GL_FRONT,   GL_SHININESS, materialShininess);
 
 	//WarmUp resize() Call
 	resize(WIN_WIDTH, WIN_HIGHT);
@@ -375,30 +318,143 @@ void resize(int width, int hight)
 
 void display(void)
 {
+
 	//code
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslatef( 0.0f, 0.0f , -0.55f);
+	glTranslatef(-1.5f, 0.3f, -3.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);//1
+	glPointSize(5.0f);
+	//1
+	glBegin(GL_POINTS);
+		for(float i = 0.0f; i < 0.4f; i = i + 0.1f)
+			for(float j = 0.0f; j < 0.4f; j = j + 0.1f)
+				glVertex3f(i, j, 0);
+	glEnd();
+	//2
+	glTranslatef(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+		for(float i = 0.0f; i < 0.3f; i = i + 0.1f)
+		{
+			for(float j = 0.0f; j < 0.3f; j = j + 0.1f)
+			{
+				glVertex3f(i, j, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j, 0.0f);
+			}
+		}
+	glEnd();
+	//3
+	glTranslatef(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+		for(float i = 0.0f; i < 0.3f; i = i + 0.1f)
+		{
+			for(float j = 0.0f; j < 0.3f; j = j + 0.1f)
+			{
+				glVertex3f(i, j, 0.0f);
+				glVertex3f(i+0.1f, j, 0.0f);
+				glVertex3f(i+0.1f, j, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j, 0.0f);
+			}
+		}
+	glEnd();
+	//4
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	quadric = gluNewQuadric(); 
-	gluSphere(quadric, 0.2, 30, 30);
+	glTranslatef(-1.5f, -0.3f, -3.0f);
+	glBegin(GL_LINES);
+		for(float i = 0.0f; i < 0.3f; i = i + 0.1f)
+		{
+			for(float j = 0.0f; j < 0.3f; j = j + 0.1f)
+			{
+				glVertex3f(i, j, 0.0f);
+				glVertex3f(i+0.1f, j, 0.0f);
+				glVertex3f(i+0.1f, j, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j, 0.0f);
+				glVertex3f(i, j, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+
+			}
+		}
+	glEnd();
+	//5
+	glTranslatef(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+			for(float j = 0.0f; j <= 0.3f; j = j + 0.1f)
+			{
+				glVertex3f(0.0f, 0.3f, 0.0f);
+				glVertex3f(0.3f, j, 0.0f);
+			}
+
+			for(float j = 0.0f; j <= 0.3f; j = j + 0.1f)
+			{
+				glVertex3f(0.0f, 0.3f, 0.0f);
+				glVertex3f(j, 0.0f, 0.0f);
+			}
+				glVertex3f(0.3f, 0.3f, 0.0f);
+				glVertex3f(0.3f, 0.0f, 0.0f);
+				glVertex3f(0.3f, 0.0f, 0.0f);
+				glVertex3f(0.0f, 0.0f, 0.0f);
+	glEnd();
+	//6
+	glTranslatef(1.0f, 0.0f, 0.0f); 
+	glBegin(GL_QUADS);
+	glColor3f(1.0f, 0.0f, 0.0f);
+				glVertex3f(0.0, 0.0, 0.0f);
+				glVertex3f(0.0, 0.3, 0.0f);
+				glVertex3f(0.1f, 0.3f, 0.0f);
+				glVertex3f(0.1f, 0.0, 0.0f);
+	glColor3f(0.0f, 1.0f, 0.0f);
+				glVertex3f(0.1f, 0.0, 0.0f);
+				glVertex3f(0.1f, 0.3, 0.0f);
+				glVertex3f(0.2f, 0.3f, 0.0f);
+				glVertex3f(0.2f, 0.0, 0.0f);
+	glColor3f(0.0f, 0.0f, 1.0f);
+				glVertex3f(0.2f, 0.0f, 0.0f);
+				glVertex3f(0.2f, 0.3f, 0.0f);
+				glVertex3f(0.3f, 0.3f, 0.0f);
+				glVertex3f(0.3f, 0.0f, 0.0f);
+	glEnd();
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glBegin(GL_LINES);
+		for(float i = 0.0f; i < 0.3f; i = i + 0.1f)
+		{
+			for(float j = 0.0f; j < 0.3f; j = j + 0.1f)
+			{
+				glVertex3f(i, j, 0.0f);
+				glVertex3f(i+0.1f, j, 0.0f);
+				glVertex3f(i+0.1f, j, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i+0.1f, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j+0.1f, 0.0f);
+				glVertex3f(i, j, 0.0f);
+			}
+		}
+	glEnd();
 
 	SwapBuffers(ghdc);
 }
 
-
-void update(void)
-{
-	//code
-}
-
 void uninitialize(void)
 {
-	//code
+
 	if(gbFullscreen == true)
 	{
 		SetWindowLong(ghwnd, GWL_STYLE, (dwStyle | WS_OVERLAPPEDWINDOW));
@@ -430,12 +486,6 @@ void uninitialize(void)
 	{
 		ReleaseDC(ghwnd, ghdc);
 		ghdc = NULL;
-	}
-
-	if(quadric)
-	{
-		gluDeleteQuadric(quadric);
-		quadric = NULL;
 	}
 
 	//closing log file

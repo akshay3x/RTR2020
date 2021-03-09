@@ -143,4 +143,3 @@ GLfloat materialAmbient24[]  = { 0.05f, 0.05f, 0.0f,  1.0f};
 GLfloat materialDiffuse24[]  = { 0.5f,  0.5f,  0.4f,  1.0f};
 GLfloat materialSpecular24[] = { 0.7f,  0.7f,  0.04f, 1.0f};
 GLfloat materialShininess24 = 0.078125f * 128.0f;
-

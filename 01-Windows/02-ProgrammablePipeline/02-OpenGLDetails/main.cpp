@@ -1,17 +1,18 @@
 #include <Windows.h>
 #include <stdio.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
-
 #include "resource.h"
 
-//library inclusion/linking
-#pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "glu32.lib")
+#include "glew.h"
+
+#include <GL/GL.h>
 
 //macro definitions
 #define WIN_WIDTH 800
 #define WIN_HIGHT 600
+
+//library inclusion
+#pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "glew32.lib")
 
 //window procedure
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -28,23 +29,7 @@ bool gbFullscreen = false;
 bool gbActiveWindow = false;
 FILE *gpFile = NULL;
 
-bool gbLight = false;
-GLUquadric *quadric = NULL;
-
-//LightSource
-GLfloat lightAmbient[]  = {   0.0f,   0.0f,   0.0f, 1.0f };
-GLfloat lightDiffuse[]  = {   1.0f,   1.0f,   1.0f, 1.0f };//white
-GLfloat lightSpecular[] = {   1.0f,   1.0f,   1.0f, 1.0f };//white
-GLfloat lightPosition[] = { 100.0f, 100.0f, 100.0f, 1.0f };//light position
-
-//MaterialProperties
-GLfloat materialAmbient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
-GLfloat materialDiffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat materialSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat materialShininess  =  50.0f;
-
-
-//WinMain()
+//main
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
 	
@@ -52,8 +37,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	void initialize(void);
 	void display(void);
 	void uninitialize(void);
-	void update (void);
-
+	
 	//variable declarations
 	WNDCLASSEX wndclass;
 	HWND hwnd;
@@ -61,13 +45,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	TCHAR szAppName[] = TEXT("OpenGL Window");
 	RECT rect;
 	bool bDone = false;
-
+	
 	UINT VerPos;
 	UINT HorPos;
 
 	//code
-	//Creating log file
-	if(fopen_s(&gpFile, "ARC_LOG.TXT", "w") != 0)
+	//opening a file
+	if(fopen_s(&gpFile, "DebugLog.txt", "w") != 0)
 	{
 		MessageBox(NULL, TEXT("Can Not Open Desired File..."),TEXT("Error"), MB_OK);
 		exit(0);
@@ -76,26 +60,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	{
 		fprintf(gpFile, "DEBUG:Log File Created Successfully\n");
 	}
-	
+
 	//initializing winndow class
 	wndclass.cbSize = sizeof(WNDCLASSEX);
 	wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wndclass.cbWndExtra = 0;
 	wndclass.cbClsExtra = 0;
 	wndclass.hInstance = hInstance;
-	wndclass.lpfnWndProc = WndProc;
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wndclass.hIcon = LoadIcon(hInstance , MAKEINTRESOURCE(MYICON));
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hIconSm = LoadIcon(hInstance , MAKEINTRESOURCE(MYICON));
+	wndclass.lpfnWndProc = WndProc;
 	wndclass.lpszClassName = szAppName;
 	wndclass.lpszMenuName = NULL;
-
 
 	//Registering above class
 	RegisterClassEx(&wndclass);
 	fprintf(gpFile, "DEBUG:Class Registered Successfully\n");
-	
 	//SystemParametersInfo
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
 
@@ -105,7 +87,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	//creating window
 	hwnd = CreateWindowEx(	WS_EX_APPWINDOW,
 							szAppName,
-							TEXT("OpenGLWindow"),
+							TEXT("MyBlueScreenWindow:Akshay"),
 							WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
 							HorPos,
 							VerPos,
@@ -144,7 +126,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 				//HERE YOU SHOULD CALL UPDATE FUNCTION FOR OPENGL RENDERING
 				//HERE YOU SHOULD CALL DISPLAY FUNCTION FOR OPENGL RENDERING
 				display();
-				update();
 			}
 		}
 	}
@@ -194,20 +175,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					DestroyWindow(hwnd);
 					break;
 
-				case 'L':
-				case 'l':
-					if(gbLight == false)
-					{
-						glEnable(GL_LIGHTING);
-						gbLight = true; 
-					}
-					else
-					{
-						glDisable(GL_LIGHTING);
-						gbLight = false;
-					}
-					break;
-
 				default:
 					break;
 			}
@@ -215,6 +182,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 		case WM_CLOSE:
 			DestroyWindow(hwnd);
+			break;
+
+		case WM_QUIT:
+			fprintf(gpFile, "DEBUG:WM_QUIT Recieved\n");
+			//uninitialize();
+			PostQuitMessage(0);
 			break;
 
 		case WM_DESTROY:
@@ -275,14 +248,14 @@ void initialize(void)
 {
 	//function declarations
 	void resize(int, int);
-	bool LoadGLTexture(GLuint *texture, TCHAR resourceID[]);
+	void uninitialize(void);
 
 	//variable declarations
 	PIXELFORMATDESCRIPTOR pfd = {sizeof(PIXELFORMATDESCRIPTOR)};
 	int iPixelFormatIndex;
+	GLint numExtensions;
 
 	//code
-	ghdc = GetDC(ghwnd);
 	ZeroMemory(&pfd, sizeof(PIXELFORMATDESCRIPTOR));
 
 	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
@@ -294,11 +267,11 @@ void initialize(void)
 	pfd.cGreenBits = 8;
 	pfd.cBlueBits = 8;
 	pfd.cAlphaBits = 8;
-
 	pfd.cDepthBits = 32;
 
-	iPixelFormatIndex = ChoosePixelFormat(ghdc, &pfd);
+	ghdc = GetDC(ghwnd);
 
+	iPixelFormatIndex = ChoosePixelFormat(ghdc, &pfd);
 	if(iPixelFormatIndex == 0)
 	{
 		fprintf(gpFile, "DEBUG:ChoosePixelFormat() Failed\n");
@@ -312,11 +285,10 @@ void initialize(void)
 	}
 	
 	ghrc = wglCreateContext(ghdc);
-
 	if(ghrc == NULL)
 	{
 		fprintf(gpFile, "DEBUG:wglCreateContext() Failed\n");
-		DestroyWindow(ghwnd);//added new
+		uninitialize();
 	}
 
 	if(wglMakeCurrent(ghdc, ghrc) == FALSE)
@@ -325,8 +297,28 @@ void initialize(void)
 		DestroyWindow(ghwnd);
 	}
 
-	//Set background color to black
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	GLenum glew_error = glewInit();
+	if(glew_error != GLEW_OK)
+	{
+		wglDeleteContext(ghrc);
+		ghrc = NULL;
+		ReleaseDC(ghwnd, ghdc);
+		ghdc = NULL;
+		fprintf(gpFile, "DEBUG: glewInit() Failed\n");
+		uninitialize();
+	}
+
+	fprintf(gpFile, "OpenGL Vendor:%s\n", glGetString(GL_VENDOR));
+	fprintf(gpFile, "OpenGL Renderer:%s\n", glGetString(GL_RENDERER));
+	fprintf(gpFile, "OpenGL Version:%s\n", glGetString(GL_VERSION));
+	fprintf(gpFile, "OpenGL Shading Language (GLSL) Version:%s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+	glGetIntegerv (GL_NUM_EXTENSIONS, &numExtensions);
+
+	for(int i = 0; i < numExtensions; i++)
+	{
+		fprintf(gpFile, "%s\n", glGetStringi(GL_EXTENSIONS, i));
+	}
 
 	//Set background depth to farthest
 	glClearDepth(1.0f);
@@ -338,18 +330,8 @@ void initialize(void)
 	glShadeModel(GL_SMOOTH);
 	//Nice perspective corrections
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-
-
-	glLightfv(GL_LIGHT1, GL_AMBIENT,  lightAmbient);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE,  lightDiffuse);
-	glLightfv(GL_LIGHT1, GL_SPECULAR, lightSpecular);
-	glLightfv(GL_LIGHT1, GL_POSITION, lightPosition);
-	glEnable(GL_LIGHT1);
-
-	glMaterialfv(GL_FRONT,  GL_AMBIENT,   materialAmbient);
-	glMaterialfv(GL_FRONT,  GL_DIFFUSE,   materialDiffuse);
-	glMaterialfv(GL_FRONT,  GL_SPECULAR,  materialSpecular);
-	glMaterialf(GL_FRONT,   GL_SHININESS, materialShininess);
+	//Set background color to black
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 	//WarmUp resize() Call
 	resize(WIN_WIDTH, WIN_HIGHT);
@@ -362,15 +344,6 @@ void resize(int width, int hight)
 		hight = 1;
 
 	glViewport(0, 0, GLsizei(width), GLsizei(hight));
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	gluPerspective(45.0f,
-					(GLfloat)width/(GLfloat)hight,
-					0.1f,
-					100.0f);
-
 }
 
 void display(void)
@@ -378,29 +351,15 @@ void display(void)
 	//code
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glTranslatef( 0.0f, 0.0f , -0.55f);
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	quadric = gluNewQuadric(); 
-	gluSphere(quadric, 0.2, 30, 30);
-
 	SwapBuffers(ghdc);
-}
-
-
-void update(void)
-{
-	//code
 }
 
 void uninitialize(void)
 {
-	//code
+	//closing file
 	if(gbFullscreen == true)
 	{
+		dwStyle = GetWindowLong(ghwnd, GWL_STYLE);
 		SetWindowLong(ghwnd, GWL_STYLE, (dwStyle | WS_OVERLAPPEDWINDOW));
 		SetWindowPos(ghwnd,
 					HWND_TOP,
@@ -412,37 +371,28 @@ void uninitialize(void)
 		ShowCursor(TRUE);
 	}
 
-	//deselecting rendering context
 	if(wglGetCurrentContext() == ghrc)
 	{
 		wglMakeCurrent(NULL, NULL);
 	}
 
-	//releasing rendering context handle
 	if(ghrc)
 	{
 		wglDeleteContext(ghrc);
 		ghrc = NULL;
 	}
-	
-	//releasing device context handle
+
 	if(ghdc)
 	{
 		ReleaseDC(ghwnd, ghdc);
 		ghdc = NULL;
 	}
 
-	if(quadric)
-	{
-		gluDeleteQuadric(quadric);
-		quadric = NULL;
-	}
-
-	//closing log file
 	if(gpFile)
 	{
-		fprintf(gpFile, "DEBUG:Log File Closed\n");
+		fprintf(gpFile, "DEBUG:File Closed\n");
 		fclose(gpFile);
 		gpFile = NULL;
 	}
 }
+
