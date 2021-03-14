@@ -617,3 +617,4 @@ void uninitialize(void)
 		gpFile = NULL;
 	}
 }
+
