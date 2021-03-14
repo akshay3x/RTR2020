@@ -507,6 +507,8 @@ void resize(int width, int hight)
 	if(hight == 0)
 		hight = 1;
 
+	glViewport(0, 0, GLsizei(width), GLsizei(hight));
+
 	if(width <= hight)
 	gOrthographicProjectionMatrix = ortho(-100.0f, 100.0f, (-100.0f * (hight / width)), (100.0f * (hight / width)), -100.0f, 100.0f);
 	else
