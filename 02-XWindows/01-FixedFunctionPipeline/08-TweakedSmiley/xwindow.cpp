@@ -56,6 +56,8 @@ int main(void)
 
 	bool bDone = false;
 
+	char keys[26];
+
 	//code
 	gpFile = fopen("./DEBUG_LOG.TXT", "w");
 	if( gpFile == NULL)
@@ -93,6 +95,7 @@ int main(void)
 
 				case KeyPress:
 				keysym = XkbKeycodeToKeysym(gpDisplay, event.xkey.keycode, 0, 0);
+				XLookupString(&event.xkey, keys, sizeof(keys), NULL, NULL);
 				switch(keysym)
 				{
 					case XK_Escape:
@@ -113,26 +116,30 @@ int main(void)
 					}
 					break;
 
-					case XK_1:
-					case XK_KP_1 :
+					default:
+					keyPressed = 5;
+					glDisable(GL_TEXTURE_2D);
+					break;
+				}
+
+				switch(keys[0])
+				{
+					case '1':
 					glEnable(GL_TEXTURE_2D);
 					keyPressed = 1;
 					break;
 
-					case XK_2:
-					case XK_KP_2:
+					case '2':
 					glEnable(GL_TEXTURE_2D);
 					keyPressed = 2;
 					break;
 
-					case XK_3:
-					case XK_KP_3:
+					case '3':
 					glEnable(GL_TEXTURE_2D);
 					keyPressed = 3;
 					break;
 
-					case XK_4:
-					case XK_KP_4:
+					case '4':
 					glEnable(GL_TEXTURE_2D);
 					keyPressed = 4;
 					break;
