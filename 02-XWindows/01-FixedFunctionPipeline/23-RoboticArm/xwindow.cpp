@@ -139,28 +139,28 @@ int main(void)
 
 						default:
 							break;
-				}
-				break;
+					}
+					break;
 
 				case ButtonPress:
-				switch(event.xbutton.button)
-				{
-					case 1:
-						break;
+					switch(event.xbutton.button)
+					{
+						case 1:
+							break;
 
-					case 2:
-						break;
+						case 2:
+							break;
 
-					case 3:
-						break;
+						case 3:
+							break;
 
-					default:
-						break;
-				}
-				break;
+						default:
+							break;
+					}
+					break;
 
 				case MotionNotify:
-				break;
+					break;
 
 				case ConfigureNotify:
 					winWidth = event.xconfigure.width;
@@ -180,8 +180,9 @@ int main(void)
 
 				default:
 					break;
-			}
-		}
+			}//switch
+		}//while
+
 		update();
 		display();
 	}
