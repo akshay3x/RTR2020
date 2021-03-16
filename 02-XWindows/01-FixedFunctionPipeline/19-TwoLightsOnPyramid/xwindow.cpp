@@ -158,7 +158,7 @@ int main(void)
 					}
 					break;
 
-					case ButtonPress:
+				case ButtonPress:
 					switch(event.xbutton.button)
 					{
 						case 1:
