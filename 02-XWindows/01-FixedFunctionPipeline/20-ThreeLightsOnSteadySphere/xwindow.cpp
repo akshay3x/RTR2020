@@ -120,73 +120,73 @@ int main(void)
 					break;
 
 				case KeyPress:
-					keysym = XkbKeycodeToKeysym(gpDisplay, event.xkey.keycode, 0, 0);
-					XLookupString(&event.xkey, keys, sizeof(keys), NULL, NULL);
+						keysym = XkbKeycodeToKeysym(gpDisplay, event.xkey.keycode, 0, 0);
+						XLookupString(&event.xkey, keys, sizeof(keys), NULL, NULL);
 
-					switch(keysym)
+						switch(keysym)
+						{
+							case XK_Escape:
+								bDone = true;
+								break;
+
+							default:
+								break;
+						}
+
+						switch(keys[0])
+						{
+							case 'F':
+							case 'f':
+								if(gbFullscreen == false)
+								{
+									ToggleFullscreen();
+									gbFullscreen = true;
+								}
+								else
+								{
+									ToggleFullscreen();
+									gbFullscreen = false;
+									}
+								break;
+
+							case 'L':
+							case 'l':
+								if(gbLight == false)
+								{
+									glEnable(GL_LIGHTING);
+									gbLight = true; 
+								}
+								else
+								{
+									glDisable(GL_LIGHTING);
+									gbLight = false;
+								}
+								break;
+
+							default:
+								break;
+						}
+					break;
+
+				case ButtonPress:
+					switch(event.xbutton.button)
 					{
-						case XK_Escape:
-							bDone = true;
+						case 1:
+							break;
+
+						case 2:
+							break;
+
+						case 3:
 							break;
 
 						default:
 							break;
 					}
-
-					switch(keys[0])
-					{
-						case 'F':
-						case 'f':
-							if(gbFullscreen == false)
-							{
-								ToggleFullscreen();
-								gbFullscreen = true;
-							}
-							else
-							{
-								ToggleFullscreen();
-								gbFullscreen = false;
-							}
-							break;
-
-						case 'L':
-						case 'l':
-							if(gbLight == false)
-							{
-								glEnable(GL_LIGHTING);
-								gbLight = true; 
-							}
-							else
-							{
-								glDisable(GL_LIGHTING);
-								gbLight = false;
-							}
-							break;
-
-						default:
-							break;
-				}
-				break;
-
-				case ButtonPress:
-				switch(event.xbutton.button)
-				{
-					case 1:
-						break;
-
-					case 2:
-						break;
-
-					case 3:
-						break;
-
-					default:
-						break;
-				}
-				break;
+					break;
 
 				case MotionNotify:
-				break;
+					break;
 
 				case ConfigureNotify:
 					winWidth = event.xconfigure.width;
