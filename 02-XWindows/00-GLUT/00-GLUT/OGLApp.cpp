@@ -14,11 +14,11 @@ int main(int argc, char **argv)
 	void uninitialize(void);
 
 	//Function Calls
-	 glutInit(&argc, argv);							//initialization
-	 glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);	//DisplayMode
-	 glutInitWindowSize(800, 600);					//Window Size
-	 glutInitWindowPosition(100, 100);				//Window Position
-	 glutCreateWindow("GLUT: Akshay Chandawale");	//Create Window with title
+	 glutInit(&argc, argv);								//initialization
+	 glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);		//DisplayMode
+	 glutInitWindowSize(800, 600);						//Window Size
+	 glutInitWindowPosition(100, 100);					//Window Position
+	 glutCreateWindow("GLUT: Akshay Chandawale");		//Create Window with title
 
 	 initialize();
 
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	 glutMouseFunc(mouse);
 	 glutCloseFunc(uninitialize);
 
-	 glutMainLoop();								//glutmainloop gameloop 
+	 glutMainLoop();									//glutmainloop gameloop 
 
 	return (0);
 	 
