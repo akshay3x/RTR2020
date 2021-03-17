@@ -214,6 +214,7 @@ void CreateWindow(void)
 						GLX_BLUE_SIZE,  8,
 						GLX_ALPHA_SIZE, 8,
 						GLX_DOUBLEBUFFER, True,
+						GLX_DEPTH_SIZE, 24,
 						None		// can write as digit 0 also
 						};
 
@@ -530,6 +531,8 @@ void uninitialize(void)
 		XCloseDisplay(gpDisplay);
 		gpDisplay = NULL;
 	}
+
+	glDeleteTextures(1, &SmileyTexture);
 
 	if(gpFile)
 	{
