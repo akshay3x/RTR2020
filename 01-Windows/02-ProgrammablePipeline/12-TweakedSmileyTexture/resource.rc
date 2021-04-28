@@ -1,0 +1,8 @@
+#include "resource.h"
+
+MYICON ICON ARC.ICO
+
+SMILEY_BITMAP BITMAP Smiley.bmp
+
+
+
