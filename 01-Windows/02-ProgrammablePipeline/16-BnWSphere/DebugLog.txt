@@ -1,0 +1,21 @@
+DEBUG:Log File Created Successfully
+DEBUG:Class Registered Successfully
+DEBUG:WM_CREATE Recieved
+DEBUG:Window Created
+DEBUG:GLExtensions File Created Successfully
+DEBUG:GLExtensions File Closed
+DEBUG:Vertex Shader
+DEBUG:creating vertex shader
+DEBUG:compiling shader vertex shader
+DEBUG:Vertex Shader Compilation Done
+DEBUG:Fragment Shader
+DEBUG:Creating Fragment Shader
+DEBUG:Compilation Fragment Shader Done
+DEBUG:Shader Program
+DEBUG:creating Shader ProgramObject
+DEBUG:Linking Shader Program Object
+DEBUG:Linking Shader Program Object Done
+DEBUG:Binding VBOs Done
+DEBUG:Initialization Done
+DEBUG:WM_DESTROY Recieved
+DEBUG:Log File Closed
