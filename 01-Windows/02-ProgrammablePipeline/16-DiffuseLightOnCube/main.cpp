@@ -415,21 +415,22 @@ void initialize(void)
 	" void main(void) \n" 							\
 	" { \n" 										\
 	" if(u_LkeyPressed == 1) \n" 					\
-	"	{ \n" 										\
+	"		{ \n" 										\
 	"			vec4 eye_coordinates = u_model_view_matrix * vPosition; \n" 						\
-	"			/*multiplying vPostion vertices to model-view matrix*/ \n"							\
-	" \n" 																							\
+				/*multiplying vPostion vertices to model-view matrix*/								\
+	"\n"\
 	"			mat3 normal_matrix = mat3( transpose( inverse( u_model_view_matrix))); \n" 			\
 				/*normal matrix is Upper Left 3x3 Matrix of */										\
 				/*[Inverse of [Tranpose of  [model-view mtrix]]]*/									\
-	" \n" 																							\
+	"\n"\
 				/*normalize(): glsl function to get homogenous coordinates*/						\
 	"			vec3 tranformed_norm =  normalize(normal_matrix * vNormal); \n" 					\
 	"			vec3 s = normalize( vec3( u_light_position - eye_coordinates)); \n" 				\
+	"\n"\
 				/*Diffuse Light*/																	\
 	"			diffuse_light = u_ld * u_kd * max( dot( s, tranformed_norm), 0.0); \n" 				\
 	"		} \n"																					\
-	" \n" 																							\
+	"\n"\
 	" gl_Position = u_projection_matrix * u_model_view_matrix * vPosition; \n" 						\
 	" } \n";
 
@@ -473,7 +474,7 @@ void initialize(void)
 	const GLchar *gFragmentShaderSourceCode =
 	" #version 450 core \n" 									\
 	" \n" 														\
-	" in vec3  diffuse_light; \n"								\
+	" in vec3 diffuse_light; \n"								\
 	" uniform int u_LkeyPressed; \n" 							\
 	" out vec4 FragColor; \n" 									\
 	" \n" 														\
@@ -554,12 +555,13 @@ void initialize(void)
 	}
 	fprintf(gpFile, "DEBUG:Linking Shader Program Object Done\n");
 
-	gModelViewMatrixUniform = glGetUniformLocation(gShaderProgramObject, "u_model_view_matrix");
-	gPerspectiveProjectionMatrixUniform = glGetUniformLocation(gShaderProgramObject, "u_projection_matrix");
+
 	gLkeyPressedUniform = glGetUniformLocation(gShaderProgramObject, "u_LkeyPressed");
 	LdUniform = glGetUniformLocation(gShaderProgramObject, "u_ld");
 	KdUniform = glGetUniformLocation(gShaderProgramObject, "u_kd");
 	LightPositionUniform = glGetUniformLocation(gShaderProgramObject, "u_light_position");
+	gModelViewMatrixUniform = glGetUniformLocation(gShaderProgramObject, "u_model_view_matrix");
+	gPerspectiveProjectionMatrixUniform = glGetUniformLocation(gShaderProgramObject, "u_projection_matrix");
 
 	const GLfloat cubeVertices[] = 
 	{
@@ -598,10 +600,33 @@ void initialize(void)
 	const GLfloat cubeNormals[] = 
 	{
 		 0.0f,	 1.0f,	 0.0f,		// TOP FACE
+		 0.0f,	 1.0f,	 0.0f,		// TOP FACE
+		 0.0f,	 1.0f,	 0.0f,		// TOP FACE
+		 0.0f,	 1.0f,	 0.0f,		// TOP FACE
+
 		 0.0f,	-1.0f,	 0.0f,		// BOTTOM FACE
+		 0.0f,	-1.0f,	 0.0f,		// BOTTOM FACE
+		 0.0f,	-1.0f,	 0.0f,		// BOTTOM FACE
+		 0.0f,	-1.0f,	 0.0f,		// BOTTOM FACE
+
 		 0.0f,	 0.0f,	 1.0f,		// FRONT FACE
+		 0.0f,	 0.0f,	 1.0f,		// FRONT FACE
+		 0.0f,	 0.0f,	 1.0f,		// FRONT FACE
+		 0.0f,	 0.0f,	 1.0f,		// FRONT FACE
+
 		 0.0f,	 0.0f,	-1.0f,		// BACK FACE
+		 0.0f,	 0.0f,	-1.0f,		// BACK FACE
+		 0.0f,	 0.0f,	-1.0f,		// BACK FACE
+		 0.0f,	 0.0f,	-1.0f,		// BACK FACE
+
 		-1.0f,	 0.0f,	 0.0f,		// LEFT FACE
+		-1.0f,	 0.0f,	 0.0f,		// LEFT FACE
+		-1.0f,	 0.0f,	 0.0f,		// LEFT FACE
+		-1.0f,	 0.0f,	 0.0f,		// LEFT FACE
+
+		 1.0f,	 0.0f,	 0.0f,		// RIGHT FACE
+		 1.0f,	 0.0f,	 0.0f,		// RIGHT FACE
+		 1.0f,	 0.0f,	 0.0f,		// RIGHT FACE
 		 1.0f,	 0.0f,	 0.0f		// RIGHT FACE
 	};
 
@@ -614,11 +639,13 @@ void initialize(void)
 	glVertexAttribPointer(ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(ATTRIBUTE_POSITION);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 
+	glBindVertexArray(gVaoCube);
 	glGenBuffers(1, &gVboCubeNormals);
 	glBindBuffer(GL_ARRAY_BUFFER, gVboCubeNormals);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeNormals), cubeNormals, GL_STATIC_DRAW);
-	glVertexAttribPointer(ATTRIBUTE_NORMAL, 1, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(ATTRIBUTE_NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(ATTRIBUTE_NORMAL);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -669,6 +696,12 @@ void display(void)
 	mat4 rotationMatrix;
 	mat4 modelViewProjectionMatrix;
 
+	modelViewMatrix = mat4::identity();
+	translateMatrix = mat4::identity();
+	scaleMatrix = mat4::identity();
+	rotationMatrix = mat4::identity();
+	modelViewProjectionMatrix = mat4::identity();
+
 	if(gbLight == true)
 	{
 		glUniform1i(gLkeyPressedUniform, 1);
@@ -683,14 +716,8 @@ void display(void)
 		glUniform1i(gLkeyPressedUniform, 0);
 	}
 
-	modelViewMatrix = mat4::identity();
-	translateMatrix = mat4::identity();
-	scaleMatrix = mat4::identity();
-	rotationMatrix = mat4::identity();
-	modelViewProjectionMatrix = mat4::identity();
-
 	translateMatrix = translate(0.0f, 0.0f , -7.0f);
-	rotationMatrix = rotate(angleCube, 1.0f, 0.0f, 0.0f);
+	rotationMatrix = rotate(-angleCube, 1.0f, 0.0f, 0.0f);
 	rotationMatrix = rotationMatrix * rotate(angleCube, 0.0f, 1.0f, 0.0f);
 	rotationMatrix = rotationMatrix * rotate(angleCube, 0.0f, 0.0f, 1.0f);
 
