@@ -857,7 +857,7 @@ void display(void)
 
 			glUniform1i(gLKeyPressedUniform, 1);
 
-			glUniform4fv(gLightAmbientUniform,	1,	(GLfloat *)lightPosition);
+			glUniform4fv(gLightAmbientUniform,	1,	(GLfloat *)lightAmbient);
 			glUniform4fv(gLightDiffuseUniform,	1,	(GLfloat *)lightDiffuse);
 			glUniform4fv(gLightSpecularUniform,	1,	(GLfloat *)lightSpecular);
 			glUniform4fv(gLightPositionUniform,	1,	(GLfloat *)lightPosition);
@@ -875,7 +875,6 @@ void display(void)
 		translateMatrix = translate(0.0f, 0.0f , -3.0f);
 		modelMatrix =  translateMatrix;
 
-		//gPerspectiveProjectionMatrix = gPerspectiveProjectionMatrix * translateMatrix;
 		glUniformMatrix4fv(gModelMatrixUniform,	1, GL_FALSE, modelMatrix);
 		glUniformMatrix4fv(gViewMatrixUniform,	1, GL_FALSE, ViewMatrix);
 		glUniformMatrix4fv(gProjectionMatrixUniform,	1, GL_FALSE, gPerspectiveProjectionMatrix);
