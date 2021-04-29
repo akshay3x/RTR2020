@@ -146,7 +146,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLi
 	//creating window
 	hwnd = CreateWindowEx(	WS_EX_APPWINDOW,
 							szAppName,
-							TEXT("PerVertexLightOnSphere:Akshay"),
+							TEXT("PerVertexPerFragmentToggle:Akshay"),
 							WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE,
 							HorPos,
 							VerPos,
