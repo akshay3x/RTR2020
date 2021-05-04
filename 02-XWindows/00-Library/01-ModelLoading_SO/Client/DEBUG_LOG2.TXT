@@ -1,0 +1,11 @@
+DEBUG:File Open Name = monkeyHead.txt
+
+DEBUG:Number Of Vertices = 2012
+DEBUG:Number Of Textures = 2111
+DEBUG:Number Of Normals  = 3932
+DEBUG:Number Of Face Triangles = 3936
+
+DEBUG:Number Of Face Texture   = 3936
+
+DEBUG:Number Of Face Normals   = 3936
+
