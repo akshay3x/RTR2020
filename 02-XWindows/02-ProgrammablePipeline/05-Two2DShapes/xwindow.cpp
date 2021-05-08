@@ -41,9 +41,14 @@ GLuint gVertexShaderObject;
 GLuint gFragmentShaderObject;
 GLuint gShaderProgramObject;
 
-GLuint gVao;
-GLuint gVbo;
-GLuint gVboColor;
+GLuint gVaoTriangle;
+GLuint gVboTriangle;
+GLuint gVboColorTriangle;
+
+GLuint gVaoQuad;
+GLuint gVboQuad;
+GLuint gVboColorQuad;
+
 GLuint gMVPU;
 
 mat4 gPerspectiveProjectionMatrix;
@@ -120,16 +125,16 @@ int main(void)
 
 					case XK_F:
 					case XK_f:
-					if(gbFullscreen == false)
-					{
-						ToggleFullscreen();
-						gbFullscreen = true;
-					}
-					else
-					{
-						ToggleFullscreen();
-						gbFullscreen = false;
-					}
+						if(gbFullscreen == false)
+						{
+							ToggleFullscreen();
+							gbFullscreen = true;
+						}
+						else
+						{
+							ToggleFullscreen();
+							gbFullscreen = false;
+						}
 					break;
 
 					default:
@@ -322,7 +327,7 @@ void CreateWindow(void)
 		exit(1);
 	}
 
-	XStoreName(gpDisplay, gWindow, " XWindows | Perspective Quad");
+	XStoreName(gpDisplay, gWindow, " XWindows | Perspective Triangle");
 
 	Atom windowManagerDelete = XInternAtom(gpDisplay, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(gpDisplay, gWindow, &windowManagerDelete, 1);
@@ -460,7 +465,7 @@ void initialize(void)
 	" void main(void) \n" \
 	" { \n" \
 	" 	gl_Position = u_mvp_matrix * vPosition; \n" \
-	"	out_color = vColor; \n" \
+	" 	out_color = vColor; \n" \
 	" } \n" ;
 
 	//provide shader source code  
@@ -567,12 +572,29 @@ void initialize(void)
 		}
 	}
 
+	gMVPU = glGetUniformLocation(gShaderProgramObject, "u_mvp_matrix");
+
+	const GLfloat TriangleVertices[] = 
+	{
+		  0.0f,  1.0f, 0.0f,
+		 -1.0f, -1.0f, 0.0f,
+		  1.0f, -1.0f, 0.0f,
+	};
+
+	const GLfloat TriangleColors[] = 
+	{
+		 1.0f,  0.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f,
+		 0.0f,  0.0f, 1.0f
+	};
+
+
 	const GLfloat QuadVertices[] = 
 	{
 		 -1.0f, -1.0f, 0.0f,
 		 -1.0f,  1.0f, 0.0f,
-		  1.0f, 1.0f, 0.0f,
-		 1.0f,  -1.0f, 0.0f
+		  1.0f,  1.0f, 0.0f,
+		  1.0f, -1.0f, 0.0f
 	};
 
 	const GLfloat QuadColors[] = 
@@ -583,18 +605,37 @@ void initialize(void)
 		 0.0f,  0.0f, 1.0f
 	};
 
-	glGenVertexArrays(1, &gVao);
-	glBindVertexArray(gVao);
+	glGenVertexArrays(1, &gVaoTriangle);
+	glBindVertexArray(gVaoTriangle);
 
-	glGenBuffers(1, &gVbo);
-	glBindBuffer(GL_ARRAY_BUFFER, gVbo);
+	glGenBuffers(1, &gVboTriangle);
+	glBindBuffer(GL_ARRAY_BUFFER, gVboTriangle);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(TriangleVertices), TriangleVertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(ATTRIBUTE_POSITION);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &gVboColorTriangle);
+	glBindBuffer(GL_ARRAY_BUFFER, gVboColorTriangle);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(TriangleColors), TriangleColors, GL_STATIC_DRAW);
+	glVertexAttribPointer(ATTRIBUTE_COLOR, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(ATTRIBUTE_COLOR);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
+	glBindVertexArray(0);
+
+	glGenVertexArrays(1, &gVaoQuad);
+	glBindVertexArray(gVaoQuad);
+
+	glGenBuffers(1, &gVboQuad);
+	glBindBuffer(GL_ARRAY_BUFFER, gVboQuad);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(QuadVertices), QuadVertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(ATTRIBUTE_POSITION);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glGenBuffers(1, &gVboColor);
-	glBindBuffer(GL_ARRAY_BUFFER, gVboColor);
+	glGenBuffers(1, &gVboColorQuad);
+	glBindBuffer(GL_ARRAY_BUFFER, gVboColorQuad);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(QuadColors), QuadColors, GL_STATIC_DRAW);
 	glVertexAttribPointer(ATTRIBUTE_COLOR, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(ATTRIBUTE_COLOR);
@@ -621,6 +662,7 @@ void initialize(void)
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 	gPerspectiveProjectionMatrix = mat4::identity();
+
 	//warmup resize call
 	resize(giWindowWidth, giWindowHight);
 }
@@ -646,13 +688,23 @@ void display(void)
 	mat4 translateMatrix = mat4:: identity();
 	mat4 modelViewProjectionMatrix = mat4:: identity();
 
-	translateMatrix = translate(0.0f, 0.0f, -5.0f);
+	translateMatrix = translate(-2.0f, 0.0f, -6.0f);
 	modelViewMatrix = translateMatrix;
 	modelViewProjectionMatrix = gPerspectiveProjectionMatrix * modelViewMatrix;
 
 	glUniformMatrix4fv(gMVPU, 1, GL_FALSE, modelViewProjectionMatrix);
 
-	glBindVertexArray(gVao);
+	glBindVertexArray(gVaoTriangle);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(0);
+
+	translateMatrix = translate( 2.0f, 0.0f, -6.0f);
+	modelViewMatrix = translateMatrix;
+	modelViewProjectionMatrix = gPerspectiveProjectionMatrix * modelViewMatrix;
+
+	glUniformMatrix4fv(gMVPU, 1, GL_FALSE, modelViewProjectionMatrix);
+	
+	glBindVertexArray(gVaoQuad);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	glBindVertexArray(0);
 
@@ -672,22 +724,40 @@ void uninitialize(void)
 	GLXContext currentGLXContext;
 
 	//code
-	if(gVao)
+	if(gVaoQuad)
 	{
-		glDeleteVertexArrays(1, &gVao);
-		gVao = 0;
+		glDeleteVertexArrays(1, &gVaoQuad);
+		gVaoQuad = 0;
 	}
 
-	if(gVbo)
+	if(gVboQuad)
 	{
-		glDeleteBuffers(1, &gVbo);
-		gVbo = 0;
+		glDeleteBuffers(1, &gVboQuad);
+		gVboQuad = 0;
 	}
 
-	if(gVboColor)
+	if(gVboColorQuad)
 	{
-		glDeleteBuffers(1, &gVboColor);
-		gVboColor = 0;
+		glDeleteBuffers(1, &gVboColorQuad);
+		gVboColorQuad = 0;
+	}
+
+	if(gVaoTriangle)
+	{
+		glDeleteVertexArrays(1, &gVaoTriangle);
+		gVaoTriangle = 0;
+	}
+
+	if(gVboTriangle)
+	{
+		glDeleteBuffers(1, &gVboTriangle);
+		gVboTriangle = 0;
+	}
+
+	if(gVboColorTriangle)
+	{
+		glDeleteBuffers(1, &gVboColorTriangle);
+		gVboColorTriangle = 0;
 	}
 
 	glDetachShader(gShaderProgramObject, gVertexShaderObject);
