@@ -1,0 +1,10 @@
+DEBUG:Log File Created Successfully
+fbconfigs = 600 
+====bestFrameBufferConfig = 16 ===== 
+visual ID = 0x5d0
+DEBUG:CreateWindow() Successful
+DEBUG: Direct Rendering Context
+DEBUG:Extensions File Created Successfully
+DEBUG:initialize() Successful
+DEBUG:Message/Game Loop Started
+DEBUG:Log File Closed Successfully
