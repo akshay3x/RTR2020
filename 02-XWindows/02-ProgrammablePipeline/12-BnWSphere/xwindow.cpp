@@ -215,7 +215,6 @@ void CreateWindow(void)
 
 	static int frameBufferAttributes[] =
 	{ 
-		GLX_RGBA,
 		GLX_X_RENDERABLE,		True,
 		GLX_DRAWABLE_TYPE,		GLX_WINDOW_BIT,
 		GLX_RENDER_TYPE,		GLX_RGBA_BIT,
@@ -533,7 +532,7 @@ void initialize(void)
 			{
 				GLsizei written;
 				glGetShaderInfoLog(gFragmentShaderObject, iInfoLogLength, &written, szInfoLog);
-				fprintf(gpFile, "Vertex Shader Compilation log: %s\n", szInfoLog);
+				fprintf(gpFile, "Fragment Shader Compilation log: %s\n", szInfoLog);
 				free(szInfoLog);
 				exit(1);
 			}
@@ -554,10 +553,10 @@ void initialize(void)
 	glLinkProgram(gShaderProgramObject);
 	
 	//Error checking for linking shader program
-	GLint iShaderPragramLinkStatus = 0;
+	GLint iShaderProgramLinkStatus = 0;
 
-	glGetProgramiv(gShaderProgramObject, GL_LINK_STATUS, &iShaderPragramLinkStatus);
-	if(iShaderCompileStatus == GL_FALSE)
+	glGetProgramiv(gShaderProgramObject, GL_LINK_STATUS, &iShaderProgramLinkStatus);
+	if(iShaderProgramLinkStatus == GL_FALSE)
 	{
 		
 		glGetProgramiv(gShaderProgramObject, GL_INFO_LOG_LENGTH, &iInfoLogLength);
@@ -567,8 +566,8 @@ void initialize(void)
 			if(szInfoLog != NULL)
 			{
 				GLsizei written;
-				glGetShaderInfoLog(gShaderProgramObject, iInfoLogLength, &written, szInfoLog);
-				fprintf(gpFile, "Shader Programm Link log = %s\n", szInfoLog);
+				glGetProgramInfoLog(gShaderProgramObject, iInfoLogLength, &written, szInfoLog);
+				fprintf(gpFile, "Shader Program Link Log: %s\n", szInfoLog);
 				free(szInfoLog);
 				exit(1);
 			}

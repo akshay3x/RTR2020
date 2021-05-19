@@ -212,7 +212,6 @@ void CreateWindow(void)
 
 	static int frameBufferAttributes[] =
 	{ 
-		GLX_RGBA,
 		GLX_X_RENDERABLE,		True,
 		GLX_DRAWABLE_TYPE,		GLX_WINDOW_BIT,
 		GLX_RENDER_TYPE,		GLX_RGBA_BIT,
@@ -765,7 +764,7 @@ int LoadBitmapTexture(const char *imgName)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, hight, 0, GL_BGR, GL_UNSIGNED_BYTE, imgData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, hight, 0, GL_RGB, GL_UNSIGNED_BYTE, imgData);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		SOIL_free_image_data(imgData);

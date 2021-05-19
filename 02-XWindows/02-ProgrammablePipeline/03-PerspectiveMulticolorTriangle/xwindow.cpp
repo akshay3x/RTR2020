@@ -202,7 +202,6 @@ void CreateWindow(void)
 
 	static int frameBufferAttributes[] =
 	{ 
-		GLX_RGBA,
 		GLX_X_RENDERABLE,		True,
 		GLX_DRAWABLE_TYPE,		GLX_WINDOW_BIT,
 		GLX_RENDER_TYPE,		GLX_RGBA_BIT,
@@ -322,7 +321,7 @@ void CreateWindow(void)
 		exit(1);
 	}
 
-	XStoreName(gpDisplay, gWindow, " XWindows | Perspective Triangle");
+	XStoreName(gpDisplay, gWindow, " XWindows | Perspective Colored Triangle");
 
 	Atom windowManagerDelete = XInternAtom(gpDisplay, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(gpDisplay, gWindow, &windowManagerDelete, 1);

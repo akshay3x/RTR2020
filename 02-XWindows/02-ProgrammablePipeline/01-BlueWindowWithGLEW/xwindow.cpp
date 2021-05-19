@@ -49,7 +49,6 @@ int giWindowHight = 600;
 
 //debug file
 FILE *gpFile = NULL;
-GLfloat angle = 0.0f;
 
 //entry point function
 int main(void)
@@ -115,16 +114,16 @@ int main(void)
 
 					case XK_F:
 					case XK_f:
-					if(gbFullscreen == false)
-					{
-						ToggleFullscreen();
-						gbFullscreen = true;
-					}
-					else
-					{
-						ToggleFullscreen();
-						gbFullscreen = false;
-					}
+						if(gbFullscreen == false)
+						{
+							ToggleFullscreen();
+							gbFullscreen = true;
+						}
+						else
+						{
+							ToggleFullscreen();
+							gbFullscreen = false;
+						}
 					break;
 
 					default:
@@ -197,7 +196,6 @@ void CreateWindow(void)
 
 	static int frameBufferAttributes[] =
 	{ 
-		GLX_RGBA,
 		GLX_X_RENDERABLE,		True,
 		GLX_DRAWABLE_TYPE,		GLX_WINDOW_BIT,
 		GLX_RENDER_TYPE,		GLX_RGBA_BIT,
@@ -495,7 +493,7 @@ void initialize(void)
 
 	" void main(void) \n" \
 	" { \n" \
-	" 	FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);" \
+	" 	FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f); \n" \
 	" } \n";
 
 	//provide shader 

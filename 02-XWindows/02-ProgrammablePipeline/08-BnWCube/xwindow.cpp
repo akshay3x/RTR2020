@@ -41,8 +41,8 @@ GLuint gVertexShaderObject;
 GLuint gFragmentShaderObject;
 GLuint gShaderProgramObject;
 
-GLuint gVaoPyramid;
-GLuint gVboPyramid;
+GLuint gVaoCube;
+GLuint gVboCube;
 GLuint gMVPU;
 
 mat4 gPerspectiveProjectionMatrix;
@@ -55,7 +55,7 @@ int giWindowHight = 600;
 //debug file
 FILE *gpFile = NULL;
 
-GLfloat anglePyramid = 0.0f;
+GLfloat angleCube = 0.0f;
 
 //entry point function
 int main(void)
@@ -322,7 +322,7 @@ void CreateWindow(void)
 		exit(1);
 	}
 
-	XStoreName(gpDisplay, gWindow, " XWindows | Black & White Pyramid");
+	XStoreName(gpDisplay, gWindow, " XWindows | Black & White Cube");
 
 	Atom windowManagerDelete = XInternAtom(gpDisplay, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(gpDisplay, gWindow, &windowManagerDelete, 1);
@@ -564,31 +564,45 @@ void initialize(void)
 
 	gMVPU = glGetUniformLocation(gShaderProgramObject, "u_mvp_matrix");
 
-	const GLfloat pyramidVertices[] = 
+	const GLfloat cubeVertices[] = 
 	{
-		 0.0f,  1.0f, 0.0f,
-		-1.0f, -1.0f, 1.0f,
-		 1.0f, -1.0f, 1.0f,
+		 1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		-1.0f,  1.0f,  1.0f,
+		 1.0f,  1.0f,  1.0f,
 
-		 0.0f,  1.0f,  0.0f,
 		 1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+		-1.0f, -1.0f, -1.0f,
 		 1.0f, -1.0f, -1.0f,
 
-		 0.0f,  1.0f,  0.0f,
+		 1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f,
+
 		 1.0f, -1.0f, -1.0f,
 		-1.0f, -1.0f, -1.0f,
+		-1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f, -1.0f,
 
-		 0.0f,  1.0f,  0.0f,
+		-1.0f,  1.0f,  1.0f,
+		-1.0f,  1.0f, -1.0f,
 		-1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f
+		-1.0f, -1.0f,  1.0f,
+
+		 1.0f,  1.0f, -1.0f,
+		 1.0f,  1.0f,  1.0f,
+		 1.0f, -1.0f,  1.0f,
+		 1.0f, -1.0f, -1.0f
 	};
 
-	glGenVertexArrays(1, &gVaoPyramid);
-	glBindVertexArray(gVaoPyramid);
+	glGenVertexArrays(1, &gVaoCube);
+	glBindVertexArray(gVaoCube);
 
-	glGenBuffers(1, &gVboPyramid);
-	glBindBuffer(GL_ARRAY_BUFFER, gVboPyramid);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(pyramidVertices), pyramidVertices, GL_STATIC_DRAW);
+	glGenBuffers(1, &gVboCube);
+	glBindBuffer(GL_ARRAY_BUFFER, gVboCube);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(ATTRIBUTE_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(ATTRIBUTE_POSITION);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -644,21 +658,31 @@ void display(void)
 
 	modelViewMatrix = mat4::identity();
 	translateMatrix = mat4::identity();
-	rotationMatrix = mat4::identity();
+	rotationMatrix  = mat4::identity();
 	modelViewProjectionMatrix = mat4::identity();
 
 	translateMatrix = translate(0.0f, 0.0f , -6.0f);
-	rotationMatrix = rotate(anglePyramid, 0.0f, 1.0f, 0.0f);
+	rotationMatrix = rotate(angleCube, 1.0f, 0.0f, 0.0f);
+	rotationMatrix = rotationMatrix * rotate(angleCube, 0.0f, 1.0f, 0.0f);
+	rotationMatrix = rotationMatrix * rotate(angleCube, 0.0f, 0.0f, 1.0f);
+
 	modelViewMatrix = translateMatrix * rotationMatrix;
 
 	modelViewProjectionMatrix = gPerspectiveProjectionMatrix * modelViewMatrix;
 
 	glUniformMatrix4fv(gMVPU, 1, GL_FALSE, modelViewProjectionMatrix);
 
-	glBindVertexArray(gVaoPyramid);
+	glBindVertexArray(gVaoCube);
 
-	glDrawArrays(GL_TRIANGLES, 0, 12);
+	glDrawArrays(GL_TRIANGLE_FAN,  0, 4);
+	glDrawArrays(GL_TRIANGLE_FAN,  4, 4);
+	glDrawArrays(GL_TRIANGLE_FAN,  8, 4);
+	glDrawArrays(GL_TRIANGLE_FAN, 12, 4);
+	glDrawArrays(GL_TRIANGLE_FAN, 16, 4);
+	glDrawArrays(GL_TRIANGLE_FAN, 20, 4);
+
 	glBindVertexArray(0);
+
 	glUseProgram(0);
 
 	glXSwapBuffers(gpDisplay, gWindow);
@@ -668,9 +692,9 @@ void display(void)
 void update(void)
 {
 	//code
-	anglePyramid = anglePyramid + 1.0f;
-	if(anglePyramid > 360.0f)
-		anglePyramid = 0.0f;
+	angleCube = angleCube + 1.0f;
+	if(angleCube > 360.0f)
+		angleCube = 0.0f;
 }
 
 void uninitialize(void)
@@ -679,16 +703,16 @@ void uninitialize(void)
 	GLXContext currentGLXContext;
 
 	//code
-		if(gVaoPyramid)
+	if(gVaoCube)
 	{
-		glDeleteVertexArrays(1, &gVaoPyramid);
-		gVaoPyramid = 0;
+		glDeleteVertexArrays(1, &gVaoCube);
+		gVaoCube = 0;
 	}
 
-	if(gVboPyramid)
+	if(gVboCube)
 	{
-		glDeleteBuffers(1, &gVboPyramid);
-		gVboPyramid = 0;
+		glDeleteBuffers(1, &gVboCube);
+		gVboCube = 0;
 	}
 
 	glDetachShader(gShaderProgramObject, gVertexShaderObject);
